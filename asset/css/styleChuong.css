@@ -389,3 +389,7 @@ img+p {
   margin-top: 24px;
   margin-bottom: 24px;
 }
+
+.text-indent {
+  text-indent: 1cm;
+}
