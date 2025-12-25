@@ -1961,9 +1961,16 @@
         color: #f5f5f5;
       }
 
-      /* =====================
-           FOOTNOTES STYLING
-        ===================== */
+      span.footnote {
+        cursor: pointer;
+        display: inline;
+        border-bottom: 1px dotted var(--red-main);
+      }
+
+      span.footnote:hover {
+        background-color: rgba(176, 32, 34, 0.1);
+      }
+
       /* Footnote reference in text */
       sup[data-footnote] {
         color: var(--red-main);
@@ -1975,18 +1982,14 @@
 
       sup[data-footnote]:hover {
         text-decoration: underline;
-        background: rgba(176, 32, 34, 0.1);
-        border-radius: 2px;
       }
 
-      /* Footnotes section at bottom of chapter */
       .footnotes {
-        margin-top: 40px;
         padding-top: 20px;
         border-top: 2px solid var(--dynamic-border);
       }
 
-      .footnote {
+      div.footnote {
         margin-bottom: 16px;
         font-size: 14px;
         line-height: 1.7;
@@ -3486,53 +3489,117 @@
       }
 
       // ======= QUẢN LÝ CHÚ THÍCH TỰ ĐỘNG TỪ BẢN THẢO =======
+      const footnoteData = {
+        "Nhiêu khê":
+          "Rườm rà, lằng nhằng, phức tạp, nhiều thủ tục hoặc chi tiết gây phiền hà.",
+        "nhiêu khê":
+          "Rườm rà, lằng nhằng, phức tạp, nhiều thủ tục hoặc chi tiết gây phiền hà.",
+        "nhiêu nhê":
+          "Rườm rà, lằng nhằng, phức tạp, nhiều thủ tục hoặc chi tiết gây phiền hà.",
+        dó: "Tên gọi của một loại cây rừng, vỏ cây được ngâm, giã và lọc để làm giấy dó – loại giấy thủ công truyền thống, bền, dai, thường dùng cho thư pháp, tranh dân gian, sắc phong.",
+        Dó: "Tên gọi của một loại cây rừng, vỏ cây được ngâm, giã và lọc để làm giấy dó – loại giấy thủ công truyền thống, bền, dai, thường dùng cho thư pháp, tranh dân gian, sắc phong.",
+        trượng:
+          "Đơn vị đo độ dài cổ, 1 trượng bằng 10 thước, tương đương khoảng 3,33 m.",
+        Trượng:
+          "Đơn vị đo độ dài cổ, 1 trượng bằng 10 thước, tương đương khoảng 3,33 m.",
+        "Phòng khánh tiết":
+          "Phòng lớn dùng để tổ chức lễ nghi, tiếp khách trọng thể, hội họp quan trọng; thường có quy mô trang trọng, đặt ở vị trí trung tâm của công trình.",
+        "phòng khánh tiết":
+          "Phòng lớn dùng để tổ chức lễ nghi, tiếp khách trọng thể, hội họp quan trọng; thường có quy mô trang trọng, đặt ở vị trí trung tâm của công trình.",
+        Quàn: "Đặt thi hài người chết trong quan tài để làm lễ tang trước khi an táng hoặc hỏa táng.",
+        quàn: "Đặt thi hài người chết trong quan tài để làm lễ tang trước khi an táng hoặc hỏa táng.",
+        "Cô nổi tiếng là đồng bóng lăm liệt":
+          "Câu này có thể đang nói về một nhân vật có cá tính mạnh, nổi loạn, hoặc một người phụ nữ gây chú ý bằng phong cách khác biệt, “lắm chiêu”.",
+      };
+
       function extractFootnotesFromChapter() {
         const articleContent = document.querySelector(".article-content");
         if (!articleContent) return [];
         const footnotes = [];
-        const footnoteElements = articleContent.querySelectorAll(
-          '.footnote[data-footnote-id], [id^="footnote-"]'
+
+        const allRefs = Array.from(
+          articleContent.querySelectorAll(
+            "sup[data-footnote], .footnote:not([data-footnote-id])"
+          )
         );
-        footnoteElements.forEach((el) => {
-          let id = el.dataset.footnoteId || el.id.replace("footnote-", "");
-          let content = "";
-          let number = "";
-          if (el.classList.contains("footnote")) {
-            const numberEl = el.querySelector(".footnote-number");
-            const contentEl = el.querySelector(".footnote-content");
-            number = numberEl ? numberEl.textContent.trim() : `[${id}]`;
-            content = contentEl
-              ? contentEl.textContent.trim()
-              : el.textContent.trim();
-          } else {
-            content = el.textContent.trim();
-            number = `[${id}]`;
+
+        let counter = 1;
+
+        allRefs.forEach((refEl) => {
+          let note = null;
+
+          if (refEl.tagName === "SUP") {
+            // Traditional footnote
+            const id = refEl.dataset.footnote;
+            // Find definition element
+            const contentEl =
+              document.getElementById(`footnote-${id}`) ||
+              articleContent.querySelector(
+                `.footnote[data-footnote-id="${id}"]`
+              );
+
+            if (contentEl) {
+              let content = "";
+              const contentDiv = contentEl.querySelector(".footnote-content");
+              content = contentDiv
+                ? contentDiv.textContent.trim()
+                : contentEl.textContent.trim();
+
+              note = {
+                id: `footnote-${id}`,
+                number: counter++,
+                content: content,
+                relatedText: getContextText(refEl),
+                refElement: refEl,
+                footnoteElement: contentEl,
+              };
+            }
+          } else if (refEl.classList.contains("footnote")) {
+            // Inline footnote
+            const text = refEl.textContent.trim();
+            // Look up data (try check match case, then lower)
+            let definition =
+              footnoteData[text] || footnoteData[text.toLowerCase()];
+
+            if (definition) {
+              note = {
+                id: `inline-${counter}`,
+                number: counter++,
+                content: definition,
+                relatedText: getContextText(refEl, true), // true = include the word itself
+                refElement: refEl,
+                footnoteElement: null,
+              };
+            }
           }
-          const refElement = articleContent.querySelector(
-            `sup[data-footnote="${id}"], a[href="#footnote-${id}"]`
-          );
-          let relatedText = "";
-          if (refElement && refElement.parentElement) {
-            const parent = refElement.parentElement;
-            const fullText = parent.textContent;
-            const refIndex = fullText.indexOf(refElement.textContent);
-            const start = Math.max(0, refIndex - 100);
-            relatedText = fullText.substring(
-              start,
-              refIndex + refElement.textContent.length + 20
-            );
-            if (start > 0) relatedText = "..." + relatedText;
-          }
-          footnotes.push({
-            id: `footnote-${id}`,
-            number,
-            content,
-            relatedText,
-            refElement: refElement,
-            footnoteElement: el,
-          });
+
+          if (note) footnotes.push(note);
         });
+
         return footnotes;
+      }
+
+      // Helper to extract surrounding text for context
+      function getContextText(element, isInlineWord = false) {
+        if (!element || !element.parentElement) return "";
+        const parent = element.parentElement;
+        const fullText = parent.textContent;
+        const refText = element.textContent;
+        const refIndex = fullText.indexOf(refText);
+
+        // Context window
+        const start = Math.max(0, refIndex - 50);
+        const end = Math.min(fullText.length, refIndex + refText.length + 50);
+
+        let context = fullText.substring(start, end);
+        if (start > 0) context = "..." + context;
+        if (end < fullText.length) context = context + "...";
+
+        // Determine the text to show as "related text" title
+        // For inline words, the word itself is the related text focus, but context helps.
+        // The original code tried to grab a specific chunk.
+        // Simplify for now: return the snippet.
+        return context;
       }
 
       function renderAnnotationsList() {
@@ -4013,8 +4080,6 @@
           "Noto Serif",
           "PT Serif",
           "Be Vietnam Pro",
-          "Roboto",
-          "Open Sans",
           "Times New Roman",
           "Arial",
         ];
