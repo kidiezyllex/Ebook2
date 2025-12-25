@@ -4979,10 +4979,12 @@
                     const isChapterType = chapter.id.startsWith('ch') || (chapter.title || '').toUpperCase().includes('CHƯƠNG');
                     const showIntro = isChapterType && sectionIndex === null && !articleContent.dataset.showingContent && !isFullscreen;
 
+                    const isJustScrollingToSection = isSameChapter && articleContent.dataset.showingContent && sectionIndex !== null;
+
                     if (showIntro) {
                         const chapterNum = parseInt(chapter.id.replace('ch', ''));
                         const romanNum = getRomanNumeral(chapterNum);
-                        const cleanTitle = (chapter.title || '').replace(/^Chương \d+\.?\s*/i, '');
+                        const cleanTitle = (chapter.title || '').replace(/^Chương \\d+\\.?\\s*/i, '');
                         updateHeadingChip(`Chương ${chapterNum}`);
 
                         articleContent.innerHTML = `
@@ -4993,7 +4995,44 @@
                         `;
                         articleContent.dataset.showingIntro = "true";
                         delete articleContent.dataset.showingContent;
+                    } else if (isJustScrollingToSection) {
+                        const allH2 = Array.from(articleContent.querySelectorAll('h2'));
+                        const filteredH2 = allH2.filter(h2 => {
+                            const t = h2.textContent.trim();
+                            return !t.includes('CÂU HỎI') && !t.includes('Câu hỏi');
+                        });
+
+                        console.log(`Scrolling to section ${sectionIndex} of ${filteredH2.length} sections`);
+
+                        if (filteredH2[sectionIndex]) {
+                            const targetH2 = filteredH2[sectionIndex];
+                            const sectionTitle = targetH2.textContent.trim();
+                            updateHeadingChip(sectionTitle);
+
+                            console.log(`Found section: "${sectionTitle}"`);
+
+                            // Scroll đến section
+                            setTimeout(() => {
+                                targetH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                                // Highlight section với hiệu ứng rõ ràng
+                                targetH2.style.backgroundColor = '#ffdd71';
+                                targetH2.style.transition = 'background-color 0.3s';
+                                targetH2.style.padding = '10px';
+                                targetH2.style.marginLeft = '-10px';
+                                targetH2.style.borderRadius = '4px';
+
+                                setTimeout(() => {
+                                    targetH2.style.backgroundColor = '';
+                                    targetH2.style.padding = '';
+                                    targetH2.style.marginLeft = '';
+                                }, 3000);
+                            }, 100);
+                        } else {
+                            console.error(`Section ${sectionIndex} not found! Total sections: ${filteredH2.length}`);
+                        }
                     } else {
+                        // Load nội dung mới (chương khác hoặc lần đầu)
                         articleContent.innerHTML = fullHtml;
                         updateHeadingChip(chapter.title);
                         articleContent.dataset.showingContent = "true";
@@ -5023,8 +5062,10 @@
                                 }, 100);
                             }
                         }
+
+                        // Chỉ scroll về top khi load nội dung mới
+                        if (articleWrapper) articleWrapper.scrollTop = 0;
                     }
-                    if (articleWrapper) articleWrapper.scrollTop = 0;
 
                     applyDisplaySettings();
                 } catch (error) {
