@@ -738,7 +738,7 @@
       }
 
       .chapter-nav-btn.next {
-        right: calc(260px + 18px);
+        right: calc(var(--right-sidebar-width) + 18px);
       }
 
       .chapter-nav-btn:disabled {
@@ -797,7 +797,7 @@
       .scroll-top-btn {
         position: fixed;
         bottom: 70px;
-        right: calc(260px + 18px);
+        right: calc(var(--right-sidebar-width) + 18px);
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -882,7 +882,7 @@
 
       /* Khi sidebar trái thu gọn */
       body.toc-collapsed .scroll-top-btn {
-        right: calc(260px + 30px);
+        right: calc(var(--right-sidebar-width) + 30px);
       }
 
       /* Dark theme */
@@ -2626,14 +2626,14 @@
                 >
                   <i class="fa-solid fa-highlighter"></i>
                 </button>
-                <button
+                <!-- <button
                   id="themeToggleBtn"
                   class="icon-toggle"
                   type="button"
                   title="Chế độ tối"
                 >
                   <i class="fa-solid fa-moon"></i>
-                </button>
+                </button> -->
                 <button
                   id="fullscreenBtn"
                   class="icon-toggle"
