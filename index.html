@@ -555,8 +555,6 @@
             padding: 18px 40px 26px;
             flex: 1;
             overflow-y: auto;
-            background: #ffffff !important;
-            color: #000000 !important;
         }
 
         .article-heading-row {
@@ -636,8 +634,6 @@
             font-size: 22px;
             line-height: 1.8;
             text-align: justify;
-            background: #ffffff !important;
-            color: #000000 !important;
         }
 
         /* Ẩn H1, H2 nội bộ trong nội dung chương (đã có tiêu đề riêng ở ngoài) */
@@ -682,11 +678,11 @@
 
         /* Styling cho caption (p hoặc span với font-style: italic ngay sau img/video) */
         .article-content img+p[style*="italic"],
-        .article-content video+p[style*="italic"],
-        .article-content audio+p[style*="italic"],
-        .article-content img+span[style*="italic"],
-        .article-content video+span[style*="italic"],
-        .article-content audio+span[style*="italic"] {
+        .article-content video,
+        .article-content audio,
+        .article-content img,
+        .article-content video,
+        .article-content audio {
             text-align: center !important;
             width: 75% !important;
             margin-left: auto !important;
@@ -694,17 +690,6 @@
             display: block !important;
         }
 
-        /* Styling chung cho tất cả caption (bất kể vị trí) */
-        .article-content p[style*="italic"][style*="color"],
-        .article-content span[style*="italic"][style*="color"] {
-            text-align: center !important;
-            width: 75% !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-            display: block !important;
-        }
-
-        /* Styling cho div chứa audio controls */
         .article-content div[style*="text-align: center"] {
             width: 100% !important;
             display: flex !important;
