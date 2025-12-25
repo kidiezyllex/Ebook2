@@ -1385,20 +1385,9 @@
       bị sạt bớt.
     </p>
 
-    <div style="border-bottom: 1px solid #000">
-      <p
-        style="
-          margin-bottom: 12px;
-          margin-top: 12px;
-          text-transform: uppercase;
-          font-weight: 600;
-          text-align: center;
-        "
-      >
-        Câu hỏi tổng kết Chương II
-      </p>
-    </div>
     <div class="quiz-container">
+      <h1 class="main-title">Câu hỏi tổng kết Chương II</h1>
+
       <div class="question-card">
         <div class="question-title">
           Câu 1: Charlie Chaplin và Paulette Goddard đã làm lễ cưới tại Hà Nội
@@ -1464,8 +1453,8 @@
 
       <div class="question-card">
         <div class="question-title">
-          Câu 5: Quảng trường nào ở Hà Nội được người dân gọi là "quảng trường
-          Tròn" vì thiết kế hình tròn và sau này trở thành Quảng trường Ba Đình?
+          Câu 5: Quảng trường nào ở Hà Nội được người dân gọi là “quảng trường
+          Tròn” vì thiết kế hình tròn và sau này trở thành Quảng trường Ba Đình?
         </div>
         <div class="options">
           <label
@@ -1491,7 +1480,7 @@
       <div class="question-card">
         <div class="question-title">
           Câu 6: Loại ngói lợp mái Nhà hát lớn Hà Nội trong lần trùng tu
-          1994–1997 được phát hiện có rất nhiều ở tỉnh nào của Việt Nam?
+          1994-1997 được phát hiện có rất nhiều ở tỉnh nào của Việt Nam?
         </div>
         <div class="options">
           <label><input type="radio" name="q6" value="A" /> A. Thanh Hóa</label>
@@ -1507,31 +1496,31 @@
       <div class="question-card">
         <div class="question-title">
           Câu 7: Những yếu tố nào thuộc về phong cách trang trí châu Âu được áp
-          dụng trong nội thất Phủ Toàn quyền Đông Dương?
+          dụng trong nội thất Phủ Toàn quyền Đông Dương? (Chọn các đáp án đúng)
         </div>
         <div class="options">
           <label
-            ><input type="radio" name="q7" value="A" /> A. Phong cách Louis
+            ><input type="checkbox" name="q7" value="A" /> A. Phong cách Louis
             XIV</label
           >
           <label
-            ><input type="radio" name="q7" value="B" /> B. Phong cách Phục
+            ><input type="checkbox" name="q7" value="B" /> B. Phong cách Phục
             hưng</label
           >
           <label
-            ><input type="radio" name="q7" value="C" /> C. Phong cách Đại đế
+            ><input type="checkbox" name="q7" value="C" /> C. Phong cách Đại đế
             Pháp</label
           >
           <label
-            ><input type="radio" name="q7" value="D" /> D. Họa tiết phương Đông
-            trên cột</label
+            ><input type="checkbox" name="q7" value="D" /> D. Họa tiết phương
+            Đông trên cột</label
           >
           <label
-            ><input type="radio" name="q7" value="E" /> E. Phong cách Art
+            ><input type="checkbox" name="q7" value="E" /> E. Phong cách Art
             Deco</label
           >
           <label
-            ><input type="radio" name="q7" value="F" /> F. Phong cách Đông
+            ><input type="checkbox" name="q7" value="F" /> F. Phong cách Đông
             Dương</label
           >
         </div>
@@ -1546,6 +1535,7 @@
 
     <script src="../asset/js/quiz.js"></script>
     <script>
+      /* --- CẤU HÌNH ĐÁP ÁN --- */
       const dapAn = {
         q1: "B",
         q2: "A",
@@ -1553,7 +1543,7 @@
         q4: "C",
         q5: "B",
         q6: "C",
-        q7: "A",
+        q7: ["A", "B", "C"],
       };
     </script>
 
