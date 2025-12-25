@@ -2125,9 +2125,9 @@
                         </div>
                         <span class="book-title-toolbar">Hà Nội còn một chút này</span>
                         <div class="icons">
-                            <button id="audioBtn" class="icon-btn" type="button">
-                                <i class="fa-solid fa-headphones"></i>
-                                <span>Audio</span>
+                            <button id="audioBtn" class="icon-btn" type="button" title="Phát bài hát ngẫu nhiên">
+                                <i class="fa-solid fa-music"></i>
+                                <span>Random song</span>
                             </button>
                             <button id="highlightModeBtn" class="icon-toggle" type="button"
                                 title="Chế độ đánh dấu / ghi chú">
@@ -2135,9 +2135,6 @@
                             </button>
                             <button id="themeToggleBtn" class="icon-toggle" type="button" title="Chế độ tối">
                                 <i class="fa-solid fa-moon"></i>
-                            </button>
-                            <button id="chatToggleBtn" class="icon-toggle" type="button" title="Chatbot">
-                                <i class="fa-solid fa-comments"></i>
                             </button>
                             <button id="fullscreenBtn" class="icon-toggle" type="button" title="Toàn màn hình">
                                 <i class="fa-solid fa-expand"></i>
@@ -2484,7 +2481,7 @@
         }
 
         function updateAudioButtons(active, paused) {
-            const btns = [audioBtn, chapterAudioBtn];
+            const btns = [chapterAudioBtn];
             btns.forEach(btn => {
                 if (!btn) return;
                 const icon = btn.querySelector('i');
@@ -2497,7 +2494,7 @@
                     }
                 } else {
                     btn.classList.remove('active');
-                    if (icon) icon.className = btn.id === 'audioBtn' ? 'fa-solid fa-headphones' : 'fa-solid fa-volume-high';
+                    if (icon) icon.className = 'fa-solid fa-volume-high';
                 }
             });
         }
@@ -2558,12 +2555,11 @@
                 bgMusic.play().catch(() => { });
             }
 
-            [audioBtn, chapterAudioBtn].forEach(btn => {
-                if (!btn) return;
-                const icon = btn.querySelector('i');
+            if (chapterAudioBtn) {
+                const icon = chapterAudioBtn.querySelector('i');
                 if (icon) icon.className = 'fa-solid fa-spinner fa-spin';
-                btn.classList.add('active');
-            });
+                chapterAudioBtn.classList.add('active');
+            }
 
             const text = contentArea.innerText.trim();
             if (!text) {
@@ -2608,13 +2604,41 @@
             }
         }
 
-        if (audioBtn) audioBtn.addEventListener('click', toggleAudio);
         if (chapterAudioBtn) chapterAudioBtn.addEventListener('click', toggleAudio);
 
+        // ======= RANDOM SONG SYSTEM =======
+        let randomAudio = null;
+        const songs = [
+            'asset/mp3/random-song-1.mp3',
+            'asset/mp3/random-song-2.mp3',
+            'asset/mp3/random-song-3.mp3',
+            'asset/mp3/random-song-4.mp3'
+        ];
+
+        function playRandomSong() {
+            if (randomAudio && !randomAudio.paused) {
+                randomAudio.pause();
+                randomAudio.currentTime = 0;
+                audioBtn.classList.remove('active');
+                audioBtn.querySelector('i').className = 'fa-solid fa-music';
+                return;
+            }
+
+            const randIdx = Math.floor(Math.random() * songs.length);
+            randomAudio = new Audio(songs[randIdx]);
+            randomAudio.play();
+
+            audioBtn.classList.add('active');
+            audioBtn.querySelector('i').className = 'fa-solid fa-stop';
+
+            randomAudio.onended = () => {
+                audioBtn.classList.remove('active');
+                audioBtn.querySelector('i').className = 'fa-solid fa-music';
+            };
+        }
+
         if (audioBtn) {
-            audioBtn.addEventListener('click', (e) => {
-                if (e.altKey) resetAudioState();
-            });
+            audioBtn.addEventListener('click', playRandomSong);
         }
 
 
@@ -3917,26 +3941,27 @@
 
         // Scroll đến chương trong mục lục và highlight
         function scrollToChapter(chapterId) {
-            // Tìm chapter trong danh sách
-            const chapter = chapters.find(c => c.id === chapterId);
-            if (!chapter) return;
+            const chapterIndex = chapters.findIndex(c => c.id === chapterId);
+            if (chapterIndex === -1) return;
 
-            // Tìm tất cả li trong toc-list
-            const tocItems = document.querySelectorAll('.toc-list li');
-            tocItems.forEach(item => {
-                item.classList.remove('search-active');
-                // So sánh text
-                if (item.textContent.trim() === chapter.title ||
-                    removeAccents(item.textContent.trim().toLowerCase()).includes(removeAccents(chapter.title.toLowerCase()).substring(0, 10))) {
-                    item.classList.add('search-active');
-                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Xóa highlight sau 3 giây
-                    setTimeout(() => {
-                        item.classList.remove('search-active');
-                    }, 3000);
-                }
-            });
+            // Load chương trước
+            loadChapter(chapterIndex);
+
+            // Tìm li trong toc-list dựa trên data-chapter
+            const item = document.querySelector(`.toc-chapter[data-chapter="${chapterId}"]`);
+            if (item) {
+                // Mở rộng nếu là chapter có sub-list
+                item.classList.add('expanded');
+                item.classList.add('search-active');
+                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Xóa highlight sau 3 giây
+                setTimeout(() => {
+                    item.classList.remove('search-active');
+                }, 3000);
+            }
         }
+
         if (searchInput && searchDropdown) {
             const debouncedChapterSearch = debounce(performChapterSearch, 200);
 
@@ -3953,7 +3978,7 @@
 
                 const keywordLower = removeAccents(keyword.toLowerCase());
                 const results = chapters.filter(ch =>
-                    removeAccents(ch.title.toLowerCase()).includes(keywordLower)
+                    removeAccents((ch.title || '').toLowerCase()).includes(keywordLower)
                 );
 
                 renderSearchResults(results, keyword);
@@ -3970,7 +3995,6 @@
                     const chapterId = item.dataset.id;
                     scrollToChapter(chapterId);
                     searchDropdown.classList.remove('show');
-                    searchInput.value = '';
                 }
             });
 
@@ -4210,7 +4234,7 @@
                         const chapterNum = parseInt(chapter.id.replace('ch', ''));
                         const romanNum = getRomanNumeral(chapterNum);
                         const cleanTitle = (chapter.title || '').replace(/^Chương \d+\.?\s*/i, '');
-
+                        updateHeadingChip(`Chương ${chapterNum}`);
                         articleContent.innerHTML = `
                             <div class="chapter-intro-container">
                                 <div class="chapter-intro-num">CHƯƠNG ${romanNum}</div>
@@ -4218,112 +4242,81 @@
                             </div>
                         `;
                     } else {
-                        // Hiển thị loading
-                        articleContent.innerHTML = '<p style="text-align:center; padding:40px;">Đang tải chương...</p>';
+                        // Fetch và xử lý nội dung
+                        const isSameChapter = articleContent.dataset.chapterId === chapter.id;
 
-                        const response = await fetch(chapter.file);
-                        if (!response.ok) throw new Error('Không thể tải chương');
+                        // Nếu chưa có content hoặc chuyển chương khác thì mới fetch
+                        if (!isSameChapter || !articleContent.innerHTML || articleContent.querySelector('.chapter-intro-container')) {
+                            const response = await fetch(chapter.file);
+                            if (!response.ok) throw new Error(`Không thể tải chương: ${response.statusText}`);
+                            const html = await response.text();
+                            const parser = new DOMParser();
+                            const chapterDoc = parser.parseFromString(html, 'text/html');
+                            const chapterBody = chapterDoc.body;
 
-                        const html = await response.text();
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-
-                        // Lấy nội dung từ body của file chương
-                        const chapterBody = doc.body;
-
-                        // Tìm nội dung chính: ưu tiên .article-content, sau đó là body trực tiếp
-                        let chapterContent = chapterBody.querySelector('.article-content');
-                        if (!chapterContent) {
-                            // Nếu không có .article-content, lấy tất cả nội dung trong body trừ script, style, và scroll button
-                            const tempDiv = document.createElement('div');
-                            Array.from(chapterBody.children).forEach(child => {
-                                if (child.tagName !== 'SCRIPT' &&
-                                    child.tagName !== 'STYLE' &&
-                                    child.tagName !== 'A' &&
-                                    !child.classList.contains('scrollTopBtn')) {
-                                    tempDiv.appendChild(child.cloneNode(true));
-                                }
-                            });
-                            chapterContent = tempDiv;
-                        }
-
-                        // Copy nội dung vào article-content
-                        if (chapterContent && chapterContent.innerHTML) {
-                            articleContent.innerHTML = chapterContent.innerHTML;
-                        } else {
-                            // Fallback: lấy toàn bộ body nhưng loại bỏ script và style
-                            const cleanHtml = chapterBody.innerHTML
-                                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                                .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-                                .replace(/<a[^>]*class="scrollTopBtn"[^>]*>.*?<\/a>/gi, '');
-                            articleContent.innerHTML = cleanHtml;
-                        }
-
-                        // Xử lý các link CSS trong file chương (nếu có)
-                        const chapterStyles = doc.querySelectorAll('link[rel="stylesheet"]');
-                        chapterStyles.forEach(link => {
-                            const href = link.getAttribute('href');
-                            if (href) {
-                                // Xử lý relative path
-                                let resolvedHref = href;
-                                if (href.startsWith('../')) {
-                                    resolvedHref = href.replace('../', '');
-                                }
-                                if (!document.querySelector(`link[href="${resolvedHref}"]`)) {
-                                    const newLink = document.createElement('link');
-                                    newLink.rel = 'stylesheet';
-                                    newLink.href = resolvedHref;
-                                    document.head.appendChild(newLink);
-                                }
-                            }
-                        });
-
-                        // Xử lý các script trong file chương (nếu cần)
-                        const chapterScripts = doc.querySelectorAll('script');
-                        chapterScripts.forEach(script => {
-                            if (script.src) {
-                                // Chỉ load script từ file chương nếu cần
-                                const src = script.src.startsWith('../') ? script.src.replace('../', '') : script.src;
-                                if (!document.querySelector(`script[src="${src}"]`)) {
-                                    const newScript = document.createElement('script');
-                                    newScript.src = src;
-                                    document.body.appendChild(newScript);
-                                }
-                            }
-                        });
-
-                        // Scroll đến phần cụ thể nếu có sectionIndex
-                        if (sectionIndex !== null && articleContent) {
-                            setTimeout(() => {
-                                // Lọc h2 tương tự như lúc render TOC để khớp index
-                                const allH2 = Array.from(articleContent.querySelectorAll('h2'));
-                                const filteredH2 = allH2.filter(h2 => {
-                                    const text = h2.textContent.trim();
-                                    return !text.includes('CÂU HỎI') && !text.includes('Câu hỏi');
+                            let chapterContent = chapterBody.querySelector('.article-content');
+                            if (!chapterContent) {
+                                const tempDiv = document.createElement('div');
+                                Array.from(chapterBody.children).forEach(child => {
+                                    if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.tagName !== 'LINK') {
+                                        tempDiv.appendChild(child.cloneNode(true));
+                                    }
                                 });
+                                chapterContent = tempDiv;
+                            }
 
-                                const targetH2 = filteredH2[sectionIndex];
-                                if (targetH2) {
-                                    targetH2.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'start'
-                                    });
-                                    // Highlight phần được chọn
-                                    targetH2.style.backgroundColor = '#ffdd71';
-                                    setTimeout(() => {
-                                        targetH2.style.backgroundColor = '';
-                                    }, 2000);
-
-                                    // Cập nhật tiêu đề chip sang tiêu đề phần con
-                                    updateHeadingChip(targetH2.textContent.trim());
-                                }
-                            }, 100);
+                            articleContent.dataset.chapterId = chapter.id;
+                            articleContent.dataset.fullContent = chapterContent.innerHTML;
                         }
 
+                        const fullHtml = articleContent.dataset.fullContent;
+
+                        if (sectionIndex !== null) {
+                            const temp = document.createElement('div');
+                            temp.innerHTML = fullHtml;
+                            const allH2 = Array.from(temp.querySelectorAll('h2'));
+                            const filteredH2 = allH2.filter(h2 => {
+                                const t = h2.textContent.trim();
+                                return !t.includes('CÂU HỎI') && !t.includes('Câu hỏi');
+                            });
+
+                            if (filteredH2[sectionIndex]) {
+                                const startNode = filteredH2[sectionIndex];
+                                const sectionTitle = startNode.textContent.trim();
+                                const sectionDiv = document.createElement('div');
+                                sectionDiv.className = 'isolated-section';
+
+                                let curr = startNode;
+                                while (curr) {
+                                    sectionDiv.appendChild(curr.cloneNode(true));
+                                    curr = curr.nextElementSibling;
+                                    if (curr && curr.tagName === 'H2') {
+                                        const nextText = curr.textContent.trim();
+                                        if (!nextText.includes('CÂU HỎI') && !nextText.includes('Câu hỏi')) break;
+                                    }
+                                }
+                                articleContent.innerHTML = '';
+                                articleContent.appendChild(sectionDiv);
+                                updateHeadingChip(sectionTitle);
+                            } else {
+                                articleContent.innerHTML = fullHtml;
+                                updateHeadingChip(chapter.title);
+                            }
+                        } else {
+                            articleContent.innerHTML = fullHtml;
+                            updateHeadingChip(chapter.title);
+                        }
+                        if (articleWrapper) articleWrapper.scrollTop = 0;
                     }
                 } catch (error) {
                     console.error('Lỗi khi tải chương:', error);
-                    articleContent.innerHTML = `<p style="text-align:center; padding:40px; color:#b02022;">Không thể tải chương: ${chapter.title}<br><small>${error.message}</small></p>`;
+                    articleContent.innerHTML = `
+                        <div style="text-align:center; padding:40px; color:var(--accent-color);">
+                            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <p>Không thể tải chương: ${chapter.title}</p>
+                            <small style="opacity: 0.7;">${error.message}</small>
+                        </div>
+                    `;
                 }
             }
 
