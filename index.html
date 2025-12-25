@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hà Nội còn một chút này</title>
 
-    <!-- Icon font (dùng cho các nút trên thanh công cụ) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=m7whKhc4"></script>
 
     <style>
         :root {
@@ -546,11 +546,10 @@
 
         .article-heading-row {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: flex-start;
             margin-bottom: 12px;
-            gap: 3px;
-
+            gap: 12px;
         }
 
         .article-heading-chip {
@@ -562,6 +561,43 @@
             padding: 5px 14px;
             height: 30px;
             transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .chapter-audio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--red-main);
+            padding: 0 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            height: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chapter-audio-btn:hover {
+            background: var(--red-main);
+            color: white;
+            border-color: var(--red-main);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(176, 32, 34, 0.2);
+        }
+
+        .chapter-audio-btn.active {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .chapter-audio-btn i {
+            font-size: 14px;
         }
 
         .heading-animate {
@@ -2123,6 +2159,10 @@
                 <div class="article-heading-row">
                     <div class="line-article"></div>
                     <span class="article-heading-chip"></span>
+                    <button id="chapterAudioBtn" class="chapter-audio-btn" title="Nghe đọc chương này">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Audio</span>
+                    </button>
                 </div>
 
                 <div class="article-content">
@@ -2432,108 +2472,153 @@
             switchTab(savedTab);
         }
 
+        // ======= HỆ THỐNG ÂM THANH (CHUYÊN NGHIỆP - ĐỌC PHÂN ĐOẠN) =======
         let isReading = false;
         let isPaused = false;
-        let currentUtterance = null;
+        let audioChunks = [];
+        let currentChunkIndex = 0;
+        const chapterAudioBtn = document.getElementById('chapterAudioBtn');
+
+        if (window.responsiveVoice) {
+            window.responsiveVoice.enableEstimationTimeout = false;
+        }
+
+        function updateAudioButtons(active, paused) {
+            const btns = [audioBtn, chapterAudioBtn];
+            btns.forEach(btn => {
+                if (!btn) return;
+                const icon = btn.querySelector('i');
+                if (active) {
+                    btn.classList.add('active');
+                    if (paused) {
+                        if (icon) icon.className = 'fa-solid fa-play';
+                    } else {
+                        if (icon) icon.className = 'fa-solid fa-pause';
+                    }
+                } else {
+                    btn.classList.remove('active');
+                    if (icon) icon.className = btn.id === 'audioBtn' ? 'fa-solid fa-headphones' : 'fa-solid fa-volume-high';
+                }
+            });
+        }
 
         function resetAudioState() {
-            if (!audioBtn) return;
             isReading = false;
             isPaused = false;
-            currentUtterance = null;
-            audioBtn.classList.remove('active');
-            audioBtn.querySelector('i').className = 'fa-solid fa-headphones';
+            audioChunks = [];
+            currentChunkIndex = 0;
+            if (window.responsiveVoice) window.responsiveVoice.cancel();
+            updateAudioButtons(false, false);
             if (bgMusic) {
                 bgMusic.pause();
                 bgMusic.currentTime = 0;
             }
         }
 
-        function startReading() {
-            if (!audioBtn) return;
-            const text = articleContent.innerText.trim();
-            if (!text) return;
+        function playNextChunk() {
+            if (!isReading || isPaused) return;
 
-            if (!('speechSynthesis' in window)) {
-                alert('Trình duyệt của bạn chưa hỗ trợ chức năng đọc văn bản (Speech Synthesis).');
+            if (currentChunkIndex < audioChunks.length) {
+                const chunk = audioChunks[currentChunkIndex];
+                if (!chunk || chunk.length < 2) {
+                    currentChunkIndex++;
+                    playNextChunk();
+                    return;
+                }
+
+                window.responsiveVoice.speak(chunk, "Vietnamese Female", {
+                    onstart: () => {
+                        updateAudioButtons(true, false);
+                    },
+                    onend: () => {
+                        currentChunkIndex++;
+                        if (currentChunkIndex < audioChunks.length) {
+                            playNextChunk();
+                        } else {
+                            resetAudioState();
+                        }
+                    },
+                    onerror: () => {
+                        console.error("Audio chunk error");
+                        resetAudioState();
+                    }
+                });
+            } else {
+                resetAudioState();
+            }
+        }
+
+        function startReading() {
+            const contentArea = document.querySelector('.article-content');
+            if (!contentArea) return;
+
+            // 1. Phản hồi lập tức: Nhạc nền và icon Loading
+            if (bgMusic) {
+                bgMusic.volume = 0.12;
+                bgMusic.play().catch(() => { });
+            }
+
+            [audioBtn, chapterAudioBtn].forEach(btn => {
+                if (!btn) return;
+                const icon = btn.querySelector('i');
+                if (icon) icon.className = 'fa-solid fa-spinner fa-spin';
+                btn.classList.add('active');
+            });
+
+            const text = contentArea.innerText.trim();
+            if (!text) {
+                resetAudioState();
                 return;
             }
 
-            // Hủy mọi đọc hiện tại trước khi bắt đầu mới
-            window.speechSynthesis.cancel();
-
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'vi-VN';
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-
-            utterance.onend = resetAudioState;
-            utterance.onerror = resetAudioState;
-
-            currentUtterance = utterance;
-            window.speechSynthesis.speak(utterance);
-
+            resetAudioState();
             isReading = true;
-            isPaused = false;
-            audioBtn.classList.add('active');
-            audioBtn.querySelector('i').className = 'fa-solid fa-pause';
 
-            if (bgMusic) {
-                bgMusic.volume = 0.2;
-                bgMusic.play().catch(() => { });
+            // 2. GỬI TOÀN BỘ VĂN BẢN (KHÔNG CHIA ĐOẠN)
+            if (window.responsiveVoice) {
+                window.responsiveVoice.speak(text, "Vietnamese Female", {
+                    onstart: () => {
+                        // Khi bắt đầu có tiếng, chuyển spinner thành icon Pause
+                        updateAudioButtons(true, false);
+                    },
+                    onend: resetAudioState,
+                    onerror: (e) => {
+                        console.error("ResponsiveVoice Error:", e);
+                        resetAudioState();
+                    }
+                });
             }
         }
 
         function toggleAudio() {
-            if (!audioBtn) return;
-            const synth = window.speechSynthesis;
+            if (!window.responsiveVoice) return;
 
-            // Nếu đang không đọc -> bắt đầu đọc
             if (!isReading) {
                 startReading();
-                return;
-            }
-
-            // Đang đọc và chưa tạm dừng -> tạm dừng
-            if (!isPaused) {
-                if (synth && synth.speaking) {
-                    synth.pause();
-                    isPaused = true;
-                    audioBtn.querySelector('i').className = 'fa-solid fa-play';
-                    if (bgMusic) {
-                        bgMusic.pause();
-                    }
-                }
-                return;
-            }
-
-            // Đang tạm dừng -> tiếp tục
-            if (isPaused) {
-                if (synth && synth.paused) {
-                    synth.resume();
+            } else {
+                if (isPaused) {
+                    window.responsiveVoice.resume();
                     isPaused = false;
-                    audioBtn.querySelector('i').className = 'fa-solid fa-pause';
-                    if (bgMusic) {
-                        bgMusic.play().catch(() => { });
-                    }
+                    updateAudioButtons(true, false);
+                } else {
+                    window.responsiveVoice.pause();
+                    isPaused = true;
+                    updateAudioButtons(true, true);
                 }
             }
         }
 
-        // Nhấn nhanh: play/pause/resume; Nhấn kèm Alt: dừng hẳn
+        if (audioBtn) audioBtn.addEventListener('click', toggleAudio);
+        if (chapterAudioBtn) chapterAudioBtn.addEventListener('click', toggleAudio);
+
         if (audioBtn) {
-            audioBtn.addEventListener('click', function (e) {
-                if (e.altKey) {
-                    window.speechSynthesis.cancel();
-                    resetAudioState();
-                } else {
-                    toggleAudio();
-                }
+            audioBtn.addEventListener('click', (e) => {
+                if (e.altKey) resetAudioState();
             });
         }
 
+
         // ======= CHẾ ĐỘ HIGHLIGHT + GHI CHÚ =======
-        let isHighlightMode = false;
         const highlights = [];
         let activePopup = null;
 
@@ -4045,10 +4130,11 @@
             };
         }
 
-        // Modified loadChapter to reset search
+        // Modified loadChapter to reset search and audio
         const oldLoadChapter = loadChapter;
         loadChapter = async function (index, sectionIndex = null) {
             originalContent = ''; // Reset original content cache for new chapter
+            resetAudioState();
             const res = await oldLoadChapter(index, sectionIndex);
             clearChapterSearch();
             return res;
