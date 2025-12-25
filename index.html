@@ -1896,6 +1896,62 @@
             color: #f5f5f5;
         }
 
+        /* =====================
+           FOOTNOTES STYLING
+        ===================== */
+        /* Footnote reference in text */
+        sup[data-footnote] {
+            color: var(--red-main);
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 2px;
+            transition: all 0.2s;
+        }
+
+        sup[data-footnote]:hover {
+            text-decoration: underline;
+            background: rgba(176, 32, 34, 0.1);
+            border-radius: 2px;
+        }
+
+        /* Footnotes section at bottom of chapter */
+        .footnotes {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--dynamic-border);
+        }
+
+        .footnote {
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            display: flex;
+            gap: 8px;
+        }
+
+        .footnote-number {
+            color: var(--red-main);
+            font-weight: bold;
+            flex-shrink: 0;
+            min-width: 30px;
+        }
+
+        .footnote-content {
+            flex: 1;
+        }
+
+        /* Footnote badge in sidebar */
+        .footnote-badge {
+            display: inline-block;
+            background: var(--red-main);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
         body.dark-theme {
             --dynamic-border: #5c4b31;
             --border-color: #3d352c;
@@ -3239,107 +3295,92 @@
             });
         }
 
-        // Render annotations list
+        // ======= QUẢN LÝ CHÚ THÍCH TỰ ĐỘNG TỪ BẢN THẢO =======
+        function extractFootnotesFromChapter() {
+            const articleContent = document.querySelector('.article-content');
+            if (!articleContent) return [];
+            const footnotes = [];
+            const footnoteElements = articleContent.querySelectorAll('.footnote[data-footnote-id], [id^="footnote-"]');
+            footnoteElements.forEach(el => {
+                let id = el.dataset.footnoteId || el.id.replace('footnote-', '');
+                let content = '';
+                let number = '';
+                if (el.classList.contains('footnote')) {
+                    const numberEl = el.querySelector('.footnote-number');
+                    const contentEl = el.querySelector('.footnote-content');
+                    number = numberEl ? numberEl.textContent.trim() : `[${id}]`;
+                    content = contentEl ? contentEl.textContent.trim() : el.textContent.trim();
+                } else {
+                    content = el.textContent.trim();
+                    number = `[${id}]`;
+                }
+                const refElement = articleContent.querySelector(`sup[data-footnote="${id}"], a[href="#footnote-${id}"]`);
+                let relatedText = '';
+                if (refElement && refElement.parentElement) {
+                    const parent = refElement.parentElement;
+                    const fullText = parent.textContent;
+                    const refIndex = fullText.indexOf(refElement.textContent);
+                    const start = Math.max(0, refIndex - 100);
+                    relatedText = fullText.substring(start, refIndex + refElement.textContent.length + 20);
+                    if (start > 0) relatedText = '...' + relatedText;
+                }
+                footnotes.push({ id: `footnote-${id}`, number, content, relatedText, refElement: refElement, footnoteElement: el });
+            });
+            return footnotes;
+        }
+
         function renderAnnotationsList() {
             if (!annotationsList) return;
-
-            if (!annotations.length) {
+            const footnotes = extractFootnotesFromChapter();
+            if (!footnotes.length) {
                 if (annotationsEmptyState) {
                     annotationsEmptyState.style.display = 'flex';
+                    const icon = annotationsEmptyState.querySelector('i');
+                    const text = annotationsEmptyState.querySelector('p');
+                    if (icon) icon.className = 'fa-regular fa-comment';
+                    if (text) text.textContent = 'Chương này không có chú thích.';
                 }
                 return;
             }
-
-            if (annotationsEmptyState) {
-                annotationsEmptyState.style.display = 'none';
-            }
-
+            if (annotationsEmptyState) annotationsEmptyState.style.display = 'none';
             annotationsList.innerHTML = '';
-            annotations.forEach((annotation, index) => {
-                const annItem = document.createElement('div');
-                annItem.className = 'annotation-item';
-
-                // Helper function to scroll to related text
-                const scrollToRelatedText = (e) => {
-                    if (e.target.closest('button')) return;
-                    if (!annotation.relatedText) return;
-
-                    const articleContent = document.querySelector('.article-content');
-                    if (articleContent) {
-                        const textNodes = getTextNodes(articleContent);
-                        for (let node of textNodes) {
-                            if (node.textContent.includes(annotation.relatedText.substring(0, 30))) {
-                                node.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                // Brief highlight animation
-                                const originalBg = node.parentElement.style.backgroundColor;
-                                node.parentElement.style.backgroundColor = '#a8d5ff';
-                                node.parentElement.style.transition = 'background-color 1s';
-                                setTimeout(() => {
-                                    node.parentElement.style.backgroundColor = originalBg || '';
-                                }, 1000);
-                                break;
-                            }
-                        }
-                    }
-                };
-
-                if (annotation.relatedText) {
+            footnotes.forEach(footnote => {
+                const item = document.createElement('div');
+                item.className = 'annotation-item';
+                item.style.cursor = 'pointer';
+                const numberBadge = document.createElement('div');
+                numberBadge.className = 'footnote-badge';
+                numberBadge.textContent = footnote.number;
+                item.appendChild(numberBadge);
+                if (footnote.relatedText) {
                     const related = document.createElement('div');
                     related.className = 'annotation-item-related';
-                    related.textContent = `"${annotation.relatedText.substring(0, 80)}${annotation.relatedText.length > 80 ? '...' : ''}"`;
-                    related.style.cursor = 'pointer';
-                    related.title = 'Click để scroll đến đoạn text được chú thích';
-                    related.addEventListener('click', scrollToRelatedText);
-                    annItem.appendChild(related);
+                    related.textContent = `"${footnote.relatedText.substring(0, 80)}${footnote.relatedText.length > 80 ? '...' : ''}"`;
+                    item.appendChild(related);
                 }
-
                 const content = document.createElement('div');
                 content.className = 'annotation-item-content';
-                content.textContent = annotation.content;
-                if (annotation.relatedText) {
-                    content.style.cursor = 'pointer';
-                    content.title = 'Click để scroll đến đoạn text được chú thích';
-                    content.addEventListener('click', scrollToRelatedText);
-                }
-                annItem.appendChild(content);
-
-                const footer = document.createElement('div');
-                footer.className = 'annotation-item-footer';
-
-                const time = document.createElement('span');
-                time.className = 'annotation-item-time';
-                if (annotation.updatedAt && annotation.updatedAt !== annotation.createdAt) {
-                    const date = new Date(annotation.updatedAt);
-                    time.textContent = `Đã cập nhật: ${date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
-                } else if (annotation.createdAt) {
-                    const date = new Date(annotation.createdAt);
-                    time.textContent = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                }
-                footer.appendChild(time);
-
-                const actions = document.createElement('div');
-                actions.className = 'annotation-item-actions';
-
-                const editBtn = document.createElement('button');
-                editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-                editBtn.title = 'Chỉnh sửa';
-                editBtn.addEventListener('click', () => editAnnotation(index));
-                actions.appendChild(editBtn);
-
-                const deleteBtn = document.createElement('button');
-                deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-                deleteBtn.title = 'Xóa';
-                deleteBtn.addEventListener('click', () => {
-                    if (confirm('Bạn có chắc muốn xóa chú thích này?')) {
-                        deleteAnnotation(index);
+                content.textContent = footnote.content;
+                item.appendChild(content);
+                item.addEventListener('click', () => {
+                    if (footnote.refElement) {
+                        footnote.refElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        const parent = footnote.refElement.parentElement;
+                        if (parent) {
+                            const originalBg = parent.style.backgroundColor;
+                            parent.style.backgroundColor = '#a8d5ff';
+                            parent.style.transition = 'background-color 0.3s';
+                            setTimeout(() => { parent.style.backgroundColor = originalBg || ''; }, 1500);
+                        }
+                    } else if (footnote.footnoteElement) {
+                        footnote.footnoteElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 });
-                actions.appendChild(deleteBtn);
-
-                footer.appendChild(actions);
-                annItem.appendChild(footer);
-                annotationsList.appendChild(annItem);
+                annotationsList.appendChild(item);
             });
+            // Ẩn nút "Thêm chú thích"
+            const addAnnotationBtn = document.getElementById('addAnnotationBtn');
+            if (addAnnotationBtn) addAnnotationBtn.style.display = 'none';
         }
 
         // ======= QUẢN LÝ GHI CHÚ =======
@@ -4953,7 +4994,6 @@
                             if (filteredH2[sectionIndex]) {
                                 const sectionTitle = filteredH2[sectionIndex].textContent.trim();
                                 updateHeadingChip(sectionTitle);
-                                // Scroll to the specific section within the full chapter
                                 setTimeout(() => {
                                     const h2s = articleContent.querySelectorAll('h2');
                                     let targetH2 = null;
@@ -4969,7 +5009,6 @@
                     }
                     if (articleWrapper) articleWrapper.scrollTop = 0;
 
-                    // Re-apply display settings after content is loaded and TOC is highlighted
                     applyDisplaySettings();
                 } catch (error) {
                     console.error('Lỗi khi tải chương:', error);
@@ -4983,25 +5022,21 @@
                 }
             }
 
-            // Scroll lên đầu nội dung nếu không có sectionIndex
             if (sectionIndex === null && articleWrapper) {
                 articleWrapper.scrollTop = 0;
             }
 
-            // Cập nhật trạng thái nút và tiến độ
             updateChapterNavButtons();
             updateProgressNavButtons();
             updateReadingProgress();
 
-            // Lưu tiến độ
             saveReadingProgress();
 
-            // Thông báo nhẹ (optional)
+            renderAnnotationsList();
+
             console.log(`Đã chuyển đến: ${chapter.title}${sectionIndex !== null ? ` - Phần ${sectionIndex + 1}` : ''}`);
         }
 
-        // Event listeners cho nút prev/next
-        // Event listeners cho nút prev/next
         if (prevChapterBtn) {
             prevChapterBtn.addEventListener('click', function () {
                 const articleWrapper = document.querySelector('.article-wrapper');
@@ -5277,6 +5312,25 @@
 
             // Load chương đầu tiên khi trang load
             loadChapter(currentChapterIndex);
+
+            // Click vào số chú thích trong nội dung -> scroll đến phần chú thích ở cuối
+            document.addEventListener('click', function (e) {
+                const footnoteRef = e.target.closest('sup[data-footnote]');
+                if (footnoteRef) {
+                    const id = footnoteRef.dataset.footnote;
+                    const footnoteEl = document.getElementById(`footnote-${id}`);
+                    if (footnoteEl) {
+                        footnoteEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Highlight animation cho phần chú thích
+                        const originalBg = footnoteEl.style.backgroundColor;
+                        footnoteEl.style.transition = 'background-color 0.3s';
+                        footnoteEl.style.backgroundColor = '#ffdd71';
+                        setTimeout(() => {
+                            footnoteEl.style.backgroundColor = originalBg || '';
+                        }, 1500);
+                    }
+                }
+            });
         })();
     });
 </script>
