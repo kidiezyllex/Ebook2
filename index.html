@@ -3621,10 +3621,7 @@
           const item = document.createElement("div");
           item.className = "annotation-item";
           item.style.cursor = "pointer";
-          const numberBadge = document.createElement("div");
-          numberBadge.className = "footnote-badge";
-          numberBadge.textContent = footnote.number;
-          item.appendChild(numberBadge);
+
           if (footnote.relatedText) {
             const related = document.createElement("div");
             related.className = "annotation-item-related";
