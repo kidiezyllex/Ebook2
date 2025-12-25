@@ -693,13 +693,13 @@
             box-shadow: none;
         }
 
-        /* Fullscreen mode: điều chỉnh vị trí */
+        /* Fullscreen mode: điều chỉnh vị trí để không bị sát rìa */
         body.fullscreen-mode .chapter-nav-btn.prev {
-            left: calc(280px + 24px);
+            left: 40px;
         }
 
         body.fullscreen-mode .chapter-nav-btn.next {
-            right: 24px;
+            right: 40px;
         }
 
         /* Khi sidebar trái thu gọn */
@@ -1873,14 +1873,73 @@
         /* =====================
            FULLSCREEN MODE
         ===================== */
-        /* Ẩn sidebar phải khi fullscreen */
+        /* Khi toàn màn hình: ẩn cả 2 sidebar và top-block */
+        body.fullscreen-mode .left-sidebar,
         body.fullscreen-mode .right-sidebar {
+            display: none !important;
+        }
+
+        body.fullscreen-mode .top-block {
             display: none;
         }
 
-        /* Grid chỉ còn 2 cột: sidebar trái + nội dung */
+        body.fullscreen-mode.show-toolbar-fs .top-block {
+            display: block;
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Grid chỉ còn 1 cột nội dung */
         body.fullscreen-mode .app-shell {
-            grid-template-columns: 280px minmax(0, 1fr);
+            grid-template-columns: 1fr !important;
+        }
+
+        /* Nút toggle toolbar trong fullscreen */
+        .fullscreen-toolbar-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+            background: var(--red-main);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        body.fullscreen-mode .fullscreen-toolbar-btn {
+            display: flex;
+        }
+
+        .fullscreen-toolbar-btn:hover {
+            background: var(--red-dark);
+            transform: translateX(-50%) translateY(-2px);
         }
 
         /* Ảnh trong bài float phải, text wrap quanh */
@@ -2011,14 +2070,16 @@
         body.toc-collapsed .left-sidebar {
             border-right: none;
             overflow: hidden;
+            min-width: 40px !important;
+            width: 40px !important;
         }
 
-        /* Ẩn hết phần nội dung mục lục khi thu gọn, chỉ giữ lại nút toggle */
+        /* Ẩn nội dung khi thu gọn */
         body.toc-collapsed .left-sidebar .book-cover,
         body.toc-collapsed .left-sidebar .icon-down,
         body.toc-collapsed .left-sidebar .line,
         body.toc-collapsed .left-sidebar .toc-wrapper {
-            display: none;
+            display: none !important;
         }
 
         body.toc-collapsed .left-sidebar .icon-dongmomenu {
@@ -2035,10 +2096,13 @@
             border-left: none;
             overflow: hidden;
             padding: 12px 0;
+            min-width: 40px !important;
+            width: 40px !important;
         }
 
         body.sidebar-right-collapsed .right-sidebar .sidebar-tabs,
-        body.sidebar-right-collapsed .right-sidebar .note-card {
+        body.sidebar-right-collapsed .right-sidebar .note-card,
+        body.sidebar-right-collapsed .right-sidebar .icon-down {
             display: none !important;
         }
 
@@ -2107,6 +2171,12 @@
 
         <!-- CENTER COLUMN -->
         <main class="center-column">
+            <!-- Nút toggle toolbar chỉ hiện trong fullscreen -->
+            <button id="fullscreenToolbarBtn" class="fullscreen-toolbar-btn">
+                <i class="fa-solid fa-bars"></i>
+                <span>Menu</span>
+            </button>
+
             <!-- TOP TOOLBAR -->
             <div class="top-block">
                 <div style="padding: 0 40px;">
@@ -3767,10 +3837,35 @@
             });
         }
 
+        // Toggles toolbar in fullscreen
+        const fullscreenToolbarBtn = document.getElementById('fullscreenToolbarBtn');
+        if (fullscreenToolbarBtn) {
+            fullscreenToolbarBtn.addEventListener('click', function () {
+                document.body.classList.toggle('show-toolbar-fs');
+                const icon = this.querySelector('i');
+                if (document.body.classList.contains('show-toolbar-fs')) {
+                    icon.className = 'fa-solid fa-xmark';
+                } else {
+                    icon.className = 'fa-solid fa-bars';
+                }
+            });
+        }
+
+        // Reset toolbar state when exiting fullscreen
+        function onFullscreenChange() {
+            updateFullscreenIcon();
+            if (!getFullscreenElement()) {
+                document.body.classList.remove('show-toolbar-fs');
+                if (fullscreenToolbarBtn) {
+                    fullscreenToolbarBtn.querySelector('i').className = 'fa-solid fa-bars';
+                }
+            }
+        }
+
         // Lắng nghe sự kiện fullscreenchange (bao gồm khi user nhấn Esc)
-        document.addEventListener('fullscreenchange', updateFullscreenIcon);
-        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
-        document.addEventListener('msfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('fullscreenchange', onFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+        document.addEventListener('msfullscreenchange', onFullscreenChange);
 
         // =====================
         // SEARCH CHAPTERS
@@ -3781,7 +3876,7 @@
         // Danh sách chương đầy đủ - TỰ ĐỘNG RENDER MỤC LỤC
         const chapters = [
             { id: 'intro-cover', title: 'Ảnh bìa', section: 'GIỚI THIỆU', file: 'Text_bia.html' },
-            { id: 'intro-publisher', title: 'Nhà xuất bản', section: 'GIỚI THIỆU', file: 'Text_nha_xuat_ban.html' },
+            { id: 'intro-publisher', title: 'Trang trách nhiệm', section: 'GIỚI THIỆU', file: 'Text_nha_xuat_ban.html' },
             { id: 'intro-work', title: 'Lời giới thiệu sách', section: 'GIỚI THIỆU', file: 'Text_tac_pham.html' },
             { id: 'intro-publisher-intro', title: 'Giới thiệu NXB', section: 'GIỚI THIỆU', file: 'Text_gioi_thieu_NXB.html' },
             { id: 'intro-author', title: 'Lời giới thiệu tác giả', section: 'GIỚI THIỆU', file: 'Text_tac_gia.html' },
