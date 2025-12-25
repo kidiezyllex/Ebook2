@@ -2158,10 +2158,8 @@
                 <img src="asset/images/Bia1.jpg" alt="Bìa sách Hà Nội còn một chút này" style="object-fit: contain;" />
             </div>
             <div class="icon-down">
-                <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="line">
-
             </div>
             <div class="toc-wrapper">
                 <div class="toc-title">Mục lục</div>
@@ -2209,7 +2207,10 @@
                             <button id="fullscreenBtn" class="icon-toggle" type="button" title="Toàn màn hình">
                                 <i class="fa-solid fa-expand"></i>
                             </button>
-                            <i class="fa-solid fa-gear"></i>
+                            <button id="gearBtn" class="icon-toggle" type="button" title="Cài đặt">
+                                <i class="fa-solid fa-gear"></i>
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -4324,47 +4325,52 @@
 
             if (articleContent && chapter.file) {
                 try {
-                    // Nếu là chương (ch1, ch2...) và không có mục con cụ thể, hiển thị trang title sang trọng
+                    // Luôn fetch nội dung trước
+                    const isSameChapter = articleContent.dataset.chapterId === chapter.id;
+                    if (!isSameChapter || !articleContent.dataset.fullContent) {
+                        const response = await fetch(chapter.file);
+                        if (!response.ok) throw new Error(`Không thể tải chương: ${response.statusText}`);
+                        const html = await response.text();
+                        const parser = new DOMParser();
+                        const chapterDoc = parser.parseFromString(html, 'text/html');
+                        const chapterBody = chapterDoc.body;
+
+                        let chapterContent = chapterBody.querySelector('.article-content');
+                        if (!chapterContent) {
+                            const tempDiv = document.createElement('div');
+                            Array.from(chapterBody.children).forEach(child => {
+                                if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.tagName !== 'LINK') {
+                                    tempDiv.appendChild(child.cloneNode(true));
+                                }
+                            });
+                            chapterContent = tempDiv;
+                        }
+                        articleContent.dataset.chapterId = chapter.id;
+                        articleContent.dataset.fullContent = chapterContent.innerHTML;
+                    }
+
+                    const fullHtml = articleContent.dataset.fullContent;
+
+                    // Nếu là chương chính (ch1, ch2...), chèn thêm trang Title Page vào đầu
                     if (chapter.id.startsWith('ch') && sectionIndex === null) {
                         const chapterNum = parseInt(chapter.id.replace('ch', ''));
                         const romanNum = getRomanNumeral(chapterNum);
                         const cleanTitle = (chapter.title || '').replace(/^Chương \d+\.?\s*/i, '');
                         updateHeadingChip(`Chương ${chapterNum}`);
+
                         articleContent.innerHTML = `
-                            <div class="chapter-intro-container">
+                            <div class="chapter-intro-container" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
                                 <div class="chapter-intro-num">CHƯƠNG ${romanNum}</div>
                                 <div class="chapter-intro-title">${cleanTitle}</div>
+                                <div style="margin-top: 50px; font-size: 14px; opacity: 0.5;">
+                                    <i class="fa-solid fa-chevron-down"></i> Cuộn xuống để đọc tiếp
+                                </div>
                             </div>
+                            <div class="actual-content">${fullHtml}</div>
                         `;
                     } else {
-                        // Fetch và xử lý nội dung
-                        const isSameChapter = articleContent.dataset.chapterId === chapter.id;
-
-                        // Nếu chưa có content hoặc chuyển chương khác thì mới fetch
-                        if (!isSameChapter || !articleContent.innerHTML || articleContent.querySelector('.chapter-intro-container')) {
-                            const response = await fetch(chapter.file);
-                            if (!response.ok) throw new Error(`Không thể tải chương: ${response.statusText}`);
-                            const html = await response.text();
-                            const parser = new DOMParser();
-                            const chapterDoc = parser.parseFromString(html, 'text/html');
-                            const chapterBody = chapterDoc.body;
-
-                            let chapterContent = chapterBody.querySelector('.article-content');
-                            if (!chapterContent) {
-                                const tempDiv = document.createElement('div');
-                                Array.from(chapterBody.children).forEach(child => {
-                                    if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.tagName !== 'LINK') {
-                                        tempDiv.appendChild(child.cloneNode(true));
-                                    }
-                                });
-                                chapterContent = tempDiv;
-                            }
-
-                            articleContent.dataset.chapterId = chapter.id;
-                            articleContent.dataset.fullContent = chapterContent.innerHTML;
-                        }
-
-                        const fullHtml = articleContent.dataset.fullContent;
+                        articleContent.innerHTML = fullHtml;
+                        updateHeadingChip(chapter.title);
 
                         if (sectionIndex !== null) {
                             const temp = document.createElement('div');
@@ -4376,33 +4382,23 @@
                             });
 
                             if (filteredH2[sectionIndex]) {
-                                const startNode = filteredH2[sectionIndex];
-                                const sectionTitle = startNode.textContent.trim();
-                                const sectionDiv = document.createElement('div');
-                                sectionDiv.className = 'isolated-section';
-
-                                let curr = startNode;
-                                while (curr) {
-                                    sectionDiv.appendChild(curr.cloneNode(true));
-                                    curr = curr.nextElementSibling;
-                                    if (curr && curr.tagName === 'H2') {
-                                        const nextText = curr.textContent.trim();
-                                        if (!nextText.includes('CÂU HỎI') && !nextText.includes('Câu hỏi')) break;
-                                    }
-                                }
-                                articleContent.innerHTML = '';
-                                articleContent.appendChild(sectionDiv);
+                                const sectionTitle = filteredH2[sectionIndex].textContent.trim();
                                 updateHeadingChip(sectionTitle);
-                            } else {
-                                articleContent.innerHTML = fullHtml;
-                                updateHeadingChip(chapter.title);
+                                // Scroll to the specific section within the full chapter
+                                setTimeout(() => {
+                                    const h2s = articleContent.querySelectorAll('h2');
+                                    let targetH2 = null;
+                                    h2s.forEach(h => {
+                                        if (h.textContent.trim() === sectionTitle) targetH2 = h;
+                                    });
+                                    if (targetH2) {
+                                        targetH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }
+                                }, 100);
                             }
-                        } else {
-                            articleContent.innerHTML = fullHtml;
-                            updateHeadingChip(chapter.title);
                         }
-                        if (articleWrapper) articleWrapper.scrollTop = 0;
                     }
+                    if (articleWrapper) articleWrapper.scrollTop = 0;
                 } catch (error) {
                     console.error('Lỗi khi tải chương:', error);
                     articleContent.innerHTML = `
@@ -4436,14 +4432,32 @@
         }
 
         // Event listeners cho nút prev/next
+        // Event listeners cho nút prev/next
         if (prevChapterBtn) {
             prevChapterBtn.addEventListener('click', function () {
+                const articleWrapper = document.querySelector('.article-wrapper');
+                const isFullscreen = document.body.classList.contains('fullscreen-mode');
+                if (isFullscreen && articleWrapper) {
+                    if (articleWrapper.scrollTop > 20) {
+                        articleWrapper.scrollBy({ top: -articleWrapper.clientHeight * 0.85, behavior: 'smooth' });
+                        return;
+                    }
+                }
                 loadChapter(currentChapterIndex - 1);
             });
         }
 
         if (nextChapterBtn) {
             nextChapterBtn.addEventListener('click', function () {
+                const articleWrapper = document.querySelector('.article-wrapper');
+                const isFullscreen = document.body.classList.contains('fullscreen-mode');
+                if (isFullscreen && articleWrapper) {
+                    const isAtBottom = articleWrapper.scrollHeight - articleWrapper.scrollTop <= articleWrapper.clientHeight + 20;
+                    if (!isAtBottom) {
+                        articleWrapper.scrollBy({ top: articleWrapper.clientHeight * 0.85, behavior: 'smooth' });
+                        return;
+                    }
+                }
                 loadChapter(currentChapterIndex + 1);
             });
         }
@@ -4472,11 +4486,24 @@
 
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
-                loadChapter(currentChapterIndex - 1);
+                const articleWrapper = document.querySelector('.article-wrapper');
+                const isFullscreen = document.body.classList.contains('fullscreen-mode');
+                if (isFullscreen && articleWrapper && articleWrapper.scrollTop > 20) {
+                    articleWrapper.scrollBy({ top: -articleWrapper.clientHeight * 0.85, behavior: 'smooth' });
+                } else {
+                    loadChapter(currentChapterIndex - 1);
+                }
             }
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
-                loadChapter(currentChapterIndex + 1);
+                const articleWrapper = document.querySelector('.article-wrapper');
+                const isFullscreen = document.body.classList.contains('fullscreen-mode');
+                const isAtBottom = articleWrapper ? (articleWrapper.scrollHeight - articleWrapper.scrollTop <= articleWrapper.clientHeight + 20) : true;
+                if (isFullscreen && articleWrapper && !isAtBottom) {
+                    articleWrapper.scrollBy({ top: articleWrapper.clientHeight * 0.85, behavior: 'smooth' });
+                } else {
+                    loadChapter(currentChapterIndex + 1);
+                }
             }
             // Phím Home để về đầu chương
             if (e.key === 'Home') {
