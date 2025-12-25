@@ -9,7 +9,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <link rel="stylesheet" href="asset/css/quiz.css" />
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=m7whKhc4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="asset/js/quiz.js"></script>
 
     <style>
       :root {
@@ -2472,12 +2475,6 @@
         border-color: #f5c86b !important;
         color: #f5c86b !important;
       }
-
-      /* The article-wrapper and article-content are intentionally omitted here 
-           to ensure they stay white (or their custom color) and are not affected by the theme toggle. */
-      /* --- END DARK THEME --- */
-
-      /* DYNAMIC BORDER GLOBAL OVERRIDES */
       .left-sidebar {
         border-right-color: var(--dynamic-border) !important;
       }
@@ -2692,10 +2689,10 @@
 
             <div class="article-image">
               <!-- Ảnh minh hoạ tạm -->
-              <img
+              <!-- <img
                 src="asset/image/Ảnh 2.jpeg"
                 alt="Ảnh minh họa trang phục Tết"
-              />
+              /> -->
             </div>
 
             <p>
@@ -5465,6 +5462,27 @@
               const parser = new DOMParser();
               const chapterDoc = parser.parseFromString(html, "text/html");
               const chapterBody = chapterDoc.body;
+
+              // Extract and set quiz answers (dapAn) if present in the chapter
+              const scripts = chapterDoc.querySelectorAll("script");
+              scripts.forEach((script) => {
+                if (script.textContent.includes("dapAn")) {
+                  try {
+                    // Create a temporary script to execute in the main window context
+                    // This ensures window.dapAn is updated for the Current Chapter
+                    const scriptCode = script.textContent.replace(
+                      /const dapAn|let dapAn|var dapAn/g,
+                      "window.dapAn"
+                    );
+                    const newScript = document.createElement("script");
+                    newScript.textContent = scriptCode;
+                    document.head.appendChild(newScript);
+                    document.head.removeChild(newScript);
+                  } catch (e) {
+                    console.error("Error executing chapter script:", e);
+                  }
+                }
+              });
 
               let chapterContent =
                 chapterBody.querySelector(".article-content");

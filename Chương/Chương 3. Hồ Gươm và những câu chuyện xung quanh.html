@@ -4,6 +4,8 @@
     <title>Chương III: Hồ Gươm và những câu chuyện xung quanh</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../asset/css/styleChuong.css" />
+    <link rel="stylesheet" href="../asset/css/quiz.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   </head>
 
   <body>
@@ -691,80 +693,28 @@
       Nội đã hỗn loạn lại càng hỗn loạn thêm.
     </p>
 
-    <h2
-      style="
-        color: #dc3545;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        text-align: center;
-      "
-    >
-      CÂU HỎI TỔNG KẾT CHƯƠNG III
-    </h2>
-    <div
-      id="quizContainer"
-      style="
-        margin: 30px 0;
-        padding: 30px;
-        background-color: #f5f5f5;
-        border-radius: 8px;
-      "
-    >
-      <form id="quizForm">
-        <div
-          class="question-item"
-          data-question="q1"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 1: Phượng đình 8 mái ở phía nam vườn hoa Lenin (nay là Công viên
-            Lê-nin) vốn là nơi đặt tấm bia tưởng niệm chiến sĩ trận vong trong
-            Chiến tranh thế giới thứ nhất đúng hay sai?
-          </p>
+    <div class="cau-hoi-tong-ket">
+      <h1 class="main-title">CÂU HỎI TỔNG KẾT CHƯƠNG III</h1>
+
+      <div class="question-card">
+        <p class="question-text">
+          Câu 1: Phượng đình 8 mái ở phía nam vườn hoa Lenin (nay là Công viên
+          Lê-nin) vốn là nơi đặt tấm bia tưởng niệm chiến sĩ trận vong trong
+          Chiến tranh thế giới thứ nhất đúng hay sai?
+        </p>
+        <div class="options">
           <label><input type="radio" name="q1" value="A" /> A. Đúng</label>
           <label><input type="radio" name="q1" value="B" /> B. Sai</label>
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q1"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q2"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 2: Theo giáo sư Tibor Ortobadi (Hungary) năm 1960, nguyên nhân
-            chính khiến nước Hồ Gươm có màu xanh là do:
-          </p>
+      <div class="question-card">
+        <p class="question-text">
+          Câu 2: Theo giáo sư Tibor Ortobadi (Hungary) năm 1960, nguyên nhân
+          chính khiến nước Hồ Gươm có màu xanh là do:
+        </p>
+        <div class="options">
           <label
             ><input type="radio" name="q2" value="A" /> A. Ô-xít đồng từ mỏ đồng
             ngấm vào nước</label
@@ -781,34 +731,16 @@
             ><input type="radio" name="q2" value="D" /> D. Bùn dưới đáy hồ quá
             nhiều</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q2"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q3"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 3: Câu lạc bộ Thống Nhất (số 16 Lê Thái Tổ) được thành lập năm
-            1960 chủ yếu dành cho:
-          </p>
+      <div class="question-card">
+        <p class="question-text">
+          Câu 3: Câu lạc bộ Thống Nhất (số 16 Lê Thái Tổ) được thành lập năm
+          1960 chủ yếu dành cho:
+        </p>
+        <div class="options">
           <label
             ><input type="radio" name="q3" value="A" /> A. Người Hà Nội
             gốc</label
@@ -825,68 +757,32 @@
             ><input type="radio" name="q3" value="D" /> D. Người Pháp còn ở lại
             Hà Nội</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q3"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q4"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 4: Theo hồi ký của Vũ Ngọc Phan, cô Phượng (một trong những
-            người tự tử ở Hồ Gươm) bán hàng ở phố:
-          </p>
+      <div class="question-card">
+        <p class="question-text">
+          Câu 4: Theo hồi ký của Vũ Ngọc Phan, cô Phượng (một trong những người
+          tự tử ở Hồ Gươm) bán hàng ở phố:
+        </p>
+        <div class="options">
           <label><input type="radio" name="q4" value="A" /> A. Hàng Gai</label>
           <label
             ><input type="radio" name="q4" value="B" /> B. Hàng Ngang</label
           >
           <label><input type="radio" name="q4" value="C" /> C. Hàng Đào</label>
           <label><input type="radio" name="q4" value="D" /> D. Hàng Bông</label>
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q4"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q5"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 5: Người thiết kế tượng đài Chiến sĩ trận vong là hai nhà điêu
-            khắc người Pháp nào?
-          </p>
+      <div class="question-card">
+        <p class="question-text">
+          Câu 5: Người thiết kế tượng đài Chiến sĩ trận vong là hai nhà điêu
+          khắc người Pháp nào?
+        </p>
+        <div class="options">
           <label
             ><input type="radio" name="q5" value="A" /> A. Paul Bert và
             Getten</label
@@ -903,34 +799,16 @@
             ><input type="radio" name="q5" value="D" /> D. Ducuing và
             Hierholtz</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q5"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q6"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 6: Những công trình nào dưới đây từng tồn tại hoặc được xây dựng
-            quanh Hồ Gươm thời Pháp thuộc?
-          </p>
+      <div class="question-card">
+        <p class="question-text">
+          Câu 6: Những công trình nào dưới đây từng tồn tại hoặc được xây dựng
+          quanh Hồ Gươm thời Pháp thuộc?
+        </p>
+        <div class="options">
           <label
             ><input type="radio" name="q6" value="A" /> A. Nhà lục giác trong
             vườn hoa Paul Bert</label
@@ -947,153 +825,20 @@
             ><input type="radio" name="q6" value="D" /> D. Đài câu cá của chúa
             Trịnh</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
-      </form>
-
-      <div style="text-align: center; margin-top: 30px">
-        <button
-          id="submitQuiz"
-          style="
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-          "
-        >
-          Nộp bài
-        </button>
-        <button
-          id="resetQuiz"
-          style="
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-left: 15px;
-            display: none;
-            transition: background-color 0.3s;
-          "
-        >
-          Làm lại
-        </button>
+        <div class="result-text" id="res-q6"></div>
       </div>
 
-      <div
-        id="quizResult"
-        style="
-          display: none;
-          margin-top: 30px;
-          padding: 25px;
-          background-color: #f8f9fa;
-          border-radius: 12px;
-          text-align: center;
-        "
-      >
-        <h3 style="margin-bottom: 15px; color: #333">Kết quả bài làm</h3>
-        <div
-          id="resultText"
-          style="font-size: 18px; font-weight: bold; margin-bottom: 10px"
-        ></div>
-        <div id="resultDetails" style="font-size: 16px; color: #666"></div>
-      </div>
+      <button class="submit-btn" onclick="chamDiem()">
+        NỘP BÀI VÀ XEM ĐIỂM
+      </button>
+      <div id="final-score"></div>
     </div>
 
-    <style>
-      .question-item label {
-        border: 2px solid transparent;
-        transition: all 0.2s;
-        display: block;
-        margin: 10px 0;
-        padding: 12px 15px;
-        cursor: pointer;
-        border-radius: 6px;
-        position: relative;
-      }
-
-      .question-item label:hover {
-        background-color: #f8f9fa;
-      }
-
-      .question-item input[type="radio"] {
-        cursor: pointer;
-        margin-right: 12px;
-        width: 18px;
-        height: 18px;
-        accent-color: #007bff;
-      }
-
-      .question-item input[type="radio"]:checked {
-        accent-color: #007bff;
-      }
-
-      .question-item label.selected {
-        background-color: #e7f3ff;
-        border-color: #007bff;
-      }
-
-      .question-item label.correct {
-        background-color: #d4edda !important;
-        border: 2px solid #28a745 !important;
-        color: #155724;
-      }
-
-      .question-item label.wrong {
-        background-color: #ffeaea !important;
-        border: 2px solid #ffcccc !important;
-        color: #721c24;
-      }
-
-      .question-item label.correct-answer {
-        background-color: #d4edda !important;
-        border: 2px solid #28a745 !important;
-        color: #155724;
-      }
-
-      .feedback {
-        padding: 10px 15px;
-        border-radius: 6px;
-        margin-top: 15px;
-      }
-
-      .feedback.correct {
-        color: #28a745;
-        background-color: #d4edda;
-      }
-
-      .feedback.wrong {
-        color: #dc3545;
-        background-color: #f8d7da;
-      }
-
-      #submitQuiz:hover {
-        background-color: #218838 !important;
-      }
-
-      #resetQuiz:hover {
-        background-color: #5a6268 !important;
-      }
-
-      #submitQuiz:disabled {
-        background-color: #6c757d !important;
-        cursor: not-allowed;
-      }
-    </style>
-
+    <script src="../asset/js/quiz.js"></script>
     <script>
-      const correctAnswers = {
+      /* --- CẤU HÌNH ĐÁP ÁN --- */
+      const dapAn = {
         q1: "A",
         q2: "B",
         q3: "B",
@@ -1101,157 +846,7 @@
         q5: "D",
         q6: "A",
       };
-
-      let isSubmitted = false;
-
-      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-          if (isSubmitted) return;
-
-          const questionItem = this.closest(".question-item");
-          const questionId = questionItem.getAttribute("data-question");
-          const userAnswer = this.value;
-          const correctAnswer = correctAnswers[questionId];
-          const isCorrect = userAnswer === correctAnswer;
-          const feedbackDiv = questionItem.querySelector(".feedback");
-
-          questionItem.querySelectorAll("label").forEach((label) => {
-            label.classList.remove(
-              "selected",
-              "correct",
-              "wrong",
-              "correct-answer"
-            );
-          });
-
-          const selectedLabel = this.closest("label");
-          selectedLabel.classList.add("selected");
-
-          if (isCorrect) {
-            selectedLabel.classList.add("correct");
-            feedbackDiv.textContent = "Chính xác!";
-            feedbackDiv.className = "feedback correct";
-            feedbackDiv.style.display = "block";
-          } else {
-            selectedLabel.classList.add("wrong");
-            questionItem.querySelectorAll("label").forEach((label) => {
-              const radioBtn = label.querySelector('input[type="radio"]');
-              if (radioBtn && radioBtn.value === correctAnswer) {
-                label.classList.add("correct-answer");
-              }
-            });
-            feedbackDiv.textContent = `Sai rồi! Đáp án đúng là ${correctAnswer}`;
-            feedbackDiv.className = "feedback wrong";
-            feedbackDiv.style.display = "block";
-          }
-        });
-      });
-
-      const submitBtn = document.getElementById("submitQuiz");
-      const resetBtn = document.getElementById("resetQuiz");
-      const resultDiv = document.getElementById("quizResult");
-      const resultText = document.getElementById("resultText");
-      const resultDetails = document.getElementById("resultDetails");
-
-      submitBtn.addEventListener("click", function () {
-        const allQuestions = document.querySelectorAll(".question-item");
-        let allAnswered = true;
-
-        allQuestions.forEach((question) => {
-          const questionId = question.getAttribute("data-question");
-          const selectedAnswer = question.querySelector(
-            `input[name="${questionId}"]:checked`
-          );
-          if (!selectedAnswer) {
-            allAnswered = false;
-          }
-        });
-
-        if (!allAnswered) {
-          alert("Vui lòng trả lời tất cả các câu hỏi trước khi nộp bài!");
-          return;
-        }
-
-        let correctCount = 0;
-        const totalQuestions = Object.keys(correctAnswers).length;
-
-        allQuestions.forEach((question) => {
-          const questionId = question.getAttribute("data-question");
-          const selectedAnswer = question.querySelector(
-            `input[name="${questionId}"]:checked`
-          );
-          const userAnswer = selectedAnswer.value;
-          const correctAnswer = correctAnswers[questionId];
-
-          if (userAnswer === correctAnswer) {
-            correctCount++;
-          } else {
-            question.querySelectorAll("label").forEach((label) => {
-              const radioBtn = label.querySelector('input[type="radio"]');
-              if (radioBtn) {
-                if (radioBtn.value === correctAnswer) {
-                  label.classList.add("correct-answer");
-                } else if (radioBtn.value === userAnswer) {
-                  label.classList.add("wrong");
-                }
-              }
-            });
-          }
-        });
-
-        const score = Math.round((correctCount / totalQuestions) * 100);
-
-        resultDiv.style.display = "block";
-        if (score === 100) {
-          resultText.textContent = `Chúc mừng! Bạn đã đạt ${score} điểm!`;
-          resultText.style.color = "#28a745";
-          resultDetails.textContent = `Bạn đã trả lời đúng ${correctCount}/${totalQuestions} câu hỏi.`;
-          submitBtn.disabled = true;
-          resetBtn.style.display = "none";
-        } else {
-          resultText.textContent = `Bạn đạt ${score} điểm`;
-          resultText.style.color = "#dc3545";
-          resultDetails.textContent = `Bạn đã trả lời đúng ${correctCount}/${totalQuestions} câu hỏi. Hãy làm lại để đạt điểm tối đa!`;
-          resetBtn.style.display = "inline-block";
-        }
-
-        isSubmitted = true;
-        submitBtn.disabled = true;
-        resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      });
-
-      resetBtn.addEventListener("click", function () {
-        document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-          radio.checked = false;
-        });
-
-        document.querySelectorAll(".question-item").forEach((question) => {
-          question.querySelectorAll("label").forEach((label) => {
-            label.classList.remove(
-              "selected",
-              "correct",
-              "wrong",
-              "correct-answer"
-            );
-          });
-          const feedbackDiv = question.querySelector(".feedback");
-          feedbackDiv.style.display = "none";
-          feedbackDiv.textContent = "";
-        });
-
-        resultDiv.style.display = "none";
-        isSubmitted = false;
-        submitBtn.disabled = false;
-        resetBtn.style.display = "none";
-
-        const quizTitle = document.querySelector('h2[style*="CÂU HỎI"]');
-        if (quizTitle) {
-          quizTitle.scrollIntoView({ behavior: "smooth" });
-        }
-      });
     </script>
-
-    <a href="#scrollChuong" class="scrollTopBtn" title="Về đầu chương">↑</a>
 
     <style>
       .scrollTopBtn {
@@ -1273,10 +868,6 @@
       .scrollTopBtn:hover {
         opacity: 1;
         background: rgba(0, 0, 0, 0.7);
-      }
-
-      #scrollChuong {
-        scroll-margin-top: 400px;
       }
     </style>
 

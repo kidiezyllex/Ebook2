@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chương II: Cảnh quan Hà Nội thời Pháp</title>
     <link rel="stylesheet" href="../asset/css/styleChuong.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="../asset/css/quiz.css" />
   </head>
 
   <body>
@@ -1383,143 +1385,65 @@
       bị sạt bớt.
     </p>
 
-    <h2
-      id="cau-hoi-tong-ket"
-      style="
-        color: #dc3545;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        text-align: center;
-      "
-    >
-      CÂU HỎI TỔNG KẾT CHƯƠNG II
-    </h2>
-    <div
-      id="quizContainer"
-      style="
-        margin: 30px 0;
-        padding: 30px;
-        background-color: #f5f5f5;
-        border-radius: 8px;
-      "
-    >
-      <form id="quizForm">
-        <div
-          class="question-item"
-          data-question="q1"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 1: Charlie Chaplin và Paulette Goddard đã làm lễ cưới tại Hà Nội
-            vào tháng 4-1936 rồi hưởng tuần trăng mật ở đây đúng hay sai?
-          </p>
+    <div style="border-bottom: 1px solid #000">
+      <p
+        style="
+          margin-bottom: 12px;
+          margin-top: 12px;
+          text-transform: uppercase;
+          font-weight: 600;
+          text-align: center;
+        "
+      >
+        Câu hỏi tổng kết Chương II
+      </p>
+    </div>
+    <div class="quiz-container">
+      <div class="question-card">
+        <div class="question-title">
+          Câu 1: Charlie Chaplin và Paulette Goddard đã làm lễ cưới tại Hà Nội
+          vào tháng 4-1936 rồi hưởng tuần trăng mật ở đây đúng hay sai?
+        </div>
+        <div class="options">
           <label><input type="radio" name="q1" value="A" /> A. Đúng</label>
           <label><input type="radio" name="q1" value="B" /> B. Sai</label>
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q1"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q2"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 2: Phái bộ Bồ Đào Nha do Duarte Coelho dẫn đầu năm 1523 là đoàn
-            khách phương Tây đầu tiên đến Thăng Long bằng đường thủy và cũng là
-            đoàn du lịch đầu tiên theo nghĩa hiện đại đúng hay sai?
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 2: Phái bộ Bồ Đào Nha do Duarte Coelho dẫn đầu năm 1523 là đoàn
+          khách phương Tây đầu tiên đến Thăng Long bằng đường thủy và cũng là
+          đoàn du lịch đầu tiên theo nghĩa hiện đại đúng hay sai?
+        </div>
+        <div class="options">
           <label><input type="radio" name="q2" value="A" /> A. Đúng</label>
           <label><input type="radio" name="q2" value="B" /> B. Sai</label>
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q2"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q3"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 3: Năm nào Hà Nội chính thức trở thành thủ đô của Liên bang Đông
-            Dương?
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 3: Năm nào Hà Nội chính thức trở thành thủ đô của Liên bang Đông
+          Dương?
+        </div>
+        <div class="options">
           <label><input type="radio" name="q3" value="A" /> A. 1883</label>
           <label><input type="radio" name="q3" value="B" /> B. 1897</label>
           <label><input type="radio" name="q3" value="C" /> C. 1902</label>
           <label><input type="radio" name="q3" value="D" /> D. 1911</label>
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q3"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q4"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 4: Kiến trúc sư nào được giao quy hoạch khu vực Phủ Toàn quyền
-            Đông Dương và quyết định dùng 12.000 m² đất?
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 4: Kiến trúc sư nào được giao quy hoạch khu vực Phủ Toàn quyền
+          Đông Dương và quyết định dùng 12.000 m² đất?
+        </div>
+        <div class="options">
           <label
             ><input type="radio" name="q4" value="A" /> A. Henri Vildieu</label
           >
@@ -1534,35 +1458,16 @@
             ><input type="radio" name="q4" value="D" /> D. Charles
             Lichtenfelder</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q4"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q5"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 5: Quảng trường nào ở Hà Nội được người dân gọi là "quảng trường
-            Tròn" vì thiết kế hình tròn và sau này trở thành Quảng trường Ba
-            Đình?
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 5: Quảng trường nào ở Hà Nội được người dân gọi là "quảng trường
+          Tròn" vì thiết kế hình tròn và sau này trở thành Quảng trường Ba Đình?
+        </div>
+        <div class="options">
           <label
             ><input type="radio" name="q5" value="A" /> A. Quảng trường Đông
             Kinh Nghĩa Thục</label
@@ -1579,68 +1484,32 @@
             ><input type="radio" name="q5" value="D" /> D. Quảng trường
             1-5</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q5"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q6"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 6: Loại ngói lợp mái Nhà hát lớn Hà Nội trong lần trùng tu
-            1994–1997 được phát hiện có rất nhiều ở tỉnh nào của Việt Nam?
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 6: Loại ngói lợp mái Nhà hát lớn Hà Nội trong lần trùng tu
+          1994–1997 được phát hiện có rất nhiều ở tỉnh nào của Việt Nam?
+        </div>
+        <div class="options">
           <label><input type="radio" name="q6" value="A" /> A. Thanh Hóa</label>
           <label><input type="radio" name="q6" value="B" /> B. Bắc Ninh</label>
           <label><input type="radio" name="q6" value="C" /> C. Lai Châu</label>
           <label
             ><input type="radio" name="q6" value="D" /> D. Quảng Ninh</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
+        <div class="result-text" id="res-q6"></div>
+      </div>
 
-        <div
-          class="question-item"
-          data-question="q7"
-          style="
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <p
-            style="
-              font-weight: bold;
-              margin-bottom: 20px;
-              font-size: 16px;
-              line-height: 1.6;
-            "
-          >
-            Câu 7: Những yếu tố nào thuộc về phong cách trang trí châu Âu được
-            áp dụng trong nội thất Phủ Toàn quyền Đông Dương? (Chọn đúng)
-          </p>
+      <div class="question-card">
+        <div class="question-title">
+          Câu 7: Những yếu tố nào thuộc về phong cách trang trí châu Âu được áp
+          dụng trong nội thất Phủ Toàn quyền Đông Dương?
+        </div>
+        <div class="options">
           <label
             ><input type="radio" name="q7" value="A" /> A. Phong cách Louis
             XIV</label
@@ -1665,153 +1534,19 @@
             ><input type="radio" name="q7" value="F" /> F. Phong cách Đông
             Dương</label
           >
-          <div
-            class="feedback"
-            style="display: none; margin-top: 15px; font-weight: bold"
-          ></div>
         </div>
-      </form>
-
-      <div style="text-align: center; margin-top: 30px">
-        <button
-          id="submitQuiz"
-          style="
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-          "
-        >
-          Nộp bài
-        </button>
-        <button
-          id="resetQuiz"
-          style="
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-left: 15px;
-            display: none;
-            transition: background-color 0.3s;
-          "
-        >
-          Làm lại
-        </button>
+        <div class="result-text" id="res-q7"></div>
       </div>
 
-      <div
-        id="quizResult"
-        style="
-          display: none;
-          margin-top: 30px;
-          padding: 25px;
-          background-color: #f8f9fa;
-          border-radius: 12px;
-          text-align: center;
-        "
-      >
-        <h3 style="margin-bottom: 15px; color: #333">Kết quả bài làm</h3>
-        <div
-          id="resultText"
-          style="font-size: 18px; font-weight: bold; margin-bottom: 10px"
-        ></div>
-        <div id="resultDetails" style="font-size: 16px; color: #666"></div>
-      </div>
+      <button class="submit-btn" onclick="chamDiem()">
+        NỘP BÀI VÀ XEM ĐIỂM
+      </button>
+      <div id="final-score"></div>
     </div>
 
-    <style>
-      .question-item label {
-        border: 2px solid transparent;
-        transition: all 0.2s;
-        display: block;
-        margin: 10px 0;
-        padding: 12px 15px;
-        cursor: pointer;
-        border-radius: 6px;
-        position: relative;
-      }
-
-      .question-item label:hover {
-        background-color: #f8f9fa;
-      }
-
-      .question-item input[type="radio"] {
-        cursor: pointer;
-        margin-right: 12px;
-        width: 18px;
-        height: 18px;
-        accent-color: #007bff;
-      }
-
-      .question-item input[type="radio"]:checked {
-        accent-color: #007bff;
-      }
-
-      .question-item label.selected {
-        background-color: #e7f3ff;
-        border-color: #007bff;
-      }
-
-      .question-item label.correct {
-        background-color: #d4edda !important;
-        border: 2px solid #28a745 !important;
-        color: #155724;
-      }
-
-      .question-item label.wrong {
-        background-color: #ffeaea !important;
-        border: 2px solid #ffcccc !important;
-        color: #721c24;
-      }
-
-      .question-item label.correct-answer {
-        background-color: #d4edda !important;
-        border: 2px solid #28a745 !important;
-        color: #155724;
-      }
-
-      .feedback {
-        padding: 10px 15px;
-        border-radius: 6px;
-        margin-top: 15px;
-      }
-
-      .feedback.correct {
-        color: #28a745;
-        background-color: #d4edda;
-      }
-
-      .feedback.wrong {
-        color: #dc3545;
-        background-color: #f8d7da;
-      }
-
-      #submitQuiz:hover {
-        background-color: #218838 !important;
-      }
-
-      #resetQuiz:hover {
-        background-color: #5a6268 !important;
-      }
-
-      #submitQuiz:disabled {
-        background-color: #6c757d !important;
-        cursor: not-allowed;
-      }
-    </style>
-
+    <script src="../asset/js/quiz.js"></script>
     <script>
-      const correctAnswers = {
+      const dapAn = {
         q1: "B",
         q2: "A",
         q3: "C",
@@ -1820,171 +1555,6 @@
         q6: "C",
         q7: "A",
       };
-
-      let isSubmitted = false;
-
-      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-          if (isSubmitted) return; // Không cho phép thay đổi sau khi nộp bài
-
-          const questionItem = this.closest(".question-item");
-          const questionId = questionItem.getAttribute("data-question");
-          const userAnswer = this.value;
-          const correctAnswer = correctAnswers[questionId];
-          const isCorrect = userAnswer === correctAnswer;
-          const feedbackDiv = questionItem.querySelector(".feedback");
-
-          // Reset all labels in this question
-          questionItem.querySelectorAll("label").forEach((label) => {
-            label.classList.remove(
-              "selected",
-              "correct",
-              "wrong",
-              "correct-answer"
-            );
-          });
-
-          // Highlight selected answer
-          const selectedLabel = this.closest("label");
-          selectedLabel.classList.add("selected");
-
-          // Check answer and provide feedback
-          if (isCorrect) {
-            selectedLabel.classList.add("correct");
-            feedbackDiv.textContent = "Chính xác!";
-            feedbackDiv.className = "feedback correct";
-            feedbackDiv.style.display = "block";
-          } else {
-            selectedLabel.classList.add("wrong");
-            // Highlight correct answer
-            questionItem.querySelectorAll("label").forEach((label) => {
-              const radioBtn = label.querySelector('input[type="radio"]');
-              if (radioBtn && radioBtn.value === correctAnswer) {
-                label.classList.add("correct-answer");
-              }
-            });
-            feedbackDiv.textContent = `Sai rồi! Đáp án đúng là ${correctAnswer}`;
-            feedbackDiv.className = "feedback wrong";
-            feedbackDiv.style.display = "block";
-          }
-        });
-      });
-
-      // Xử lý nút Nộp bài
-      const submitBtn = document.getElementById("submitQuiz");
-      const resetBtn = document.getElementById("resetQuiz");
-      const resultDiv = document.getElementById("quizResult");
-      const resultText = document.getElementById("resultText");
-      const resultDetails = document.getElementById("resultDetails");
-
-      submitBtn.addEventListener("click", function () {
-        // Kiểm tra xem đã trả lời hết câu hỏi chưa
-        const allQuestions = document.querySelectorAll(".question-item");
-        let allAnswered = true;
-
-        allQuestions.forEach((question) => {
-          const questionId = question.getAttribute("data-question");
-          const selectedAnswer = question.querySelector(
-            `input[name="${questionId}"]:checked`
-          );
-          if (!selectedAnswer) {
-            allAnswered = false;
-          }
-        });
-
-        if (!allAnswered) {
-          alert("Vui lòng trả lời tất cả các câu hỏi trước khi nộp bài!");
-          return;
-        }
-
-        // Tính điểm
-        let correctCount = 0;
-        const totalQuestions = Object.keys(correctAnswers).length;
-
-        allQuestions.forEach((question) => {
-          const questionId = question.getAttribute("data-question");
-          const selectedAnswer = question.querySelector(
-            `input[name="${questionId}"]:checked`
-          );
-          const userAnswer = selectedAnswer.value;
-          const correctAnswer = correctAnswers[questionId];
-
-          if (userAnswer === correctAnswer) {
-            correctCount++;
-          } else {
-            // Highlight đáp án đúng và sai
-            question.querySelectorAll("label").forEach((label) => {
-              const radioBtn = label.querySelector('input[type="radio"]');
-              if (radioBtn) {
-                if (radioBtn.value === correctAnswer) {
-                  label.classList.add("correct-answer");
-                } else if (radioBtn.value === userAnswer) {
-                  label.classList.add("wrong");
-                }
-              }
-            });
-          }
-        });
-
-        // Tính điểm (100 điểm nếu đúng hết, chia tỷ lệ nếu sai)
-        const score = Math.round((correctCount / totalQuestions) * 100);
-
-        // Hiển thị kết quả
-        resultDiv.style.display = "block";
-        if (score === 100) {
-          resultText.textContent = `Chúc mừng! Bạn đã đạt ${score} điểm!`;
-          resultText.style.color = "#28a745";
-          resultDetails.textContent = `Bạn đã trả lời đúng ${correctCount}/${totalQuestions} câu hỏi.`;
-          submitBtn.disabled = true;
-          resetBtn.style.display = "none";
-        } else {
-          resultText.textContent = `Bạn đạt ${score} điểm`;
-          resultText.style.color = "#dc3545";
-          resultDetails.textContent = `Bạn đã trả lời đúng ${correctCount}/${totalQuestions} câu hỏi. Hãy làm lại để đạt điểm tối đa!`;
-          resetBtn.style.display = "inline-block";
-        }
-
-        isSubmitted = true;
-        submitBtn.disabled = true;
-
-        // Scroll đến kết quả
-        resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      });
-
-      // Xử lý nút Làm lại
-      resetBtn.addEventListener("click", function () {
-        // Reset tất cả câu hỏi
-        document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-          radio.checked = false;
-        });
-
-        document.querySelectorAll(".question-item").forEach((question) => {
-          question.querySelectorAll("label").forEach((label) => {
-            label.classList.remove(
-              "selected",
-              "correct",
-              "wrong",
-              "correct-answer"
-            );
-          });
-          const feedbackDiv = question.querySelector(".feedback");
-          feedbackDiv.style.display = "none";
-          feedbackDiv.textContent = "";
-        });
-
-        // Ẩn kết quả
-        resultDiv.style.display = "none";
-
-        // Reset trạng thái
-        isSubmitted = false;
-        submitBtn.disabled = false;
-        resetBtn.style.display = "none";
-
-        // Scroll về đầu quiz
-        document
-          .getElementById("cau-hoi-tong-ket")
-          .scrollIntoView({ behavior: "smooth" });
-      });
     </script>
 
     <style>
@@ -2007,10 +1577,6 @@
       .scrollTopBtn:hover {
         opacity: 1;
         background: rgba(0, 0, 0, 0.7);
-      }
-
-      #scrollChuong {
-        scroll-margin-top: 400px;
       }
     </style>
 
