@@ -662,6 +662,55 @@
             border: 2px solid #ccc;
         }
 
+        /* Styling cho tất cả img, video, audio trong article-content */
+        .article-content img,
+        .article-content video {
+            width: 75% !important;
+            max-width: 75% !important;
+            height: auto !important;
+            display: block !important;
+            margin: 0px auto !important;
+            border-radius: 8px;
+        }
+
+        .article-content audio {
+            width: 75% !important;
+            max-width: 75% !important;
+            display: block !important;
+            margin: 20px auto !important;
+        }
+
+        /* Styling cho caption (p hoặc span với font-style: italic ngay sau img/video) */
+        .article-content img+p[style*="italic"],
+        .article-content video+p[style*="italic"],
+        .article-content audio+p[style*="italic"],
+        .article-content img+span[style*="italic"],
+        .article-content video+span[style*="italic"],
+        .article-content audio+span[style*="italic"] {
+            text-align: center !important;
+            width: 75% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            display: block !important;
+        }
+
+        /* Styling chung cho tất cả caption (bất kể vị trí) */
+        .article-content p[style*="italic"][style*="color"],
+        .article-content span[style*="italic"][style*="color"] {
+            text-align: center !important;
+            width: 75% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            display: block !important;
+        }
+
+        /* Styling cho div chứa audio controls */
+        .article-content div[style*="text-align: center"] {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+        }
+
         /* CHAPTER NAVIGATION BUTTONS */
         .chapter-nav-btn {
             position: fixed;
@@ -4996,74 +5045,102 @@
                         articleContent.dataset.showingIntro = "true";
                         delete articleContent.dataset.showingContent;
                     } else if (isJustScrollingToSection) {
-                        const allH2 = Array.from(articleContent.querySelectorAll('h2'));
+                        // Chỉ hiển thị nội dung của section được chọn
+                        const temp = document.createElement('div');
+                        temp.innerHTML = fullHtml;
+
+                        // Lấy tất cả h2
+                        const allH2 = Array.from(temp.querySelectorAll('h2'));
                         const filteredH2 = allH2.filter(h2 => {
                             const t = h2.textContent.trim();
                             return !t.includes('CÂU HỎI') && !t.includes('Câu hỏi');
                         });
 
-                        console.log(`Scrolling to section ${sectionIndex} of ${filteredH2.length} sections`);
+                        console.log(`Showing section ${sectionIndex} of ${filteredH2.length} sections`);
 
                         if (filteredH2[sectionIndex]) {
                             const targetH2 = filteredH2[sectionIndex];
                             const sectionTitle = targetH2.textContent.trim();
                             updateHeadingChip(sectionTitle);
 
-                            console.log(`Found section: "${sectionTitle}"`);
+                            console.log(`Showing only section: "${sectionTitle}"`);
 
-                            // Scroll đến section
-                            setTimeout(() => {
-                                targetH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // Tìm nội dung của section này (từ h2 này đến h2 tiếp theo hoặc cuối file)
+                            const nextH2 = filteredH2[sectionIndex + 1];
 
-                                // Highlight section với hiệu ứng rõ ràng
-                                targetH2.style.backgroundColor = '#ffdd71';
-                                targetH2.style.transition = 'background-color 0.3s';
-                                targetH2.style.padding = '10px';
-                                targetH2.style.marginLeft = '-10px';
-                                targetH2.style.borderRadius = '4px';
+                            // Tạo container mới chỉ chứa section này
+                            const sectionContent = document.createElement('div');
+                            sectionContent.className = 'section-content';
 
-                                setTimeout(() => {
-                                    targetH2.style.backgroundColor = '';
-                                    targetH2.style.padding = '';
-                                    targetH2.style.marginLeft = '';
-                                }, 3000);
-                            }, 100);
+                            // Thêm h2
+                            sectionContent.appendChild(targetH2.cloneNode(true));
+
+                            // Thêm tất cả elements giữa h2 này và h2 tiếp theo
+                            let currentElement = targetH2.nextElementSibling;
+                            while (currentElement && currentElement !== nextH2) {
+                                sectionContent.appendChild(currentElement.cloneNode(true));
+                                currentElement = currentElement.nextElementSibling;
+                            }
+
+                            // Hiển thị chỉ section này
+                            articleContent.innerHTML = sectionContent.innerHTML;
+
+                            // Scroll về đầu
+                            if (articleWrapper) articleWrapper.scrollTop = 0;
                         } else {
                             console.error(`Section ${sectionIndex} not found! Total sections: ${filteredH2.length}`);
                         }
                     } else {
                         // Load nội dung mới (chương khác hoặc lần đầu)
-                        articleContent.innerHTML = fullHtml;
-                        updateHeadingChip(chapter.title);
-                        articleContent.dataset.showingContent = "true";
-                        delete articleContent.dataset.showingIntro;
 
                         if (sectionIndex !== null) {
+                            // Nếu có sectionIndex, chỉ hiển thị section đó
                             const temp = document.createElement('div');
                             temp.innerHTML = fullHtml;
+
                             const allH2 = Array.from(temp.querySelectorAll('h2'));
                             const filteredH2 = allH2.filter(h2 => {
                                 const t = h2.textContent.trim();
                                 return !t.includes('CÂU HỎI') && !t.includes('Câu hỏi');
                             });
 
+                            console.log(`[New content] Showing section ${sectionIndex} of ${filteredH2.length} sections`);
+
                             if (filteredH2[sectionIndex]) {
-                                const sectionTitle = filteredH2[sectionIndex].textContent.trim();
+                                const targetH2 = filteredH2[sectionIndex];
+                                const sectionTitle = targetH2.textContent.trim();
                                 updateHeadingChip(sectionTitle);
-                                setTimeout(() => {
-                                    const h2s = articleContent.querySelectorAll('h2');
-                                    let targetH2 = null;
-                                    h2s.forEach(h => {
-                                        if (h.textContent.trim() === sectionTitle) targetH2 = h;
-                                    });
-                                    if (targetH2) {
-                                        targetH2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                    }
-                                }, 100);
+
+                                console.log(`[New content] Showing only section: "${sectionTitle}"`);
+
+                                // Tìm nội dung của section này
+                                const nextH2 = filteredH2[sectionIndex + 1];
+
+                                const sectionContent = document.createElement('div');
+                                sectionContent.className = 'section-content';
+                                sectionContent.appendChild(targetH2.cloneNode(true));
+
+                                let currentElement = targetH2.nextElementSibling;
+                                while (currentElement && currentElement !== nextH2) {
+                                    sectionContent.appendChild(currentElement.cloneNode(true));
+                                    currentElement = currentElement.nextElementSibling;
+                                }
+
+                                articleContent.innerHTML = sectionContent.innerHTML;
+                            } else {
+                                console.error(`[New content] Section ${sectionIndex} not found! Total sections: ${filteredH2.length}`);
+                                articleContent.innerHTML = fullHtml;
                             }
+                        } else {
+                            // Không có sectionIndex, hiển thị toàn bộ chương
+                            articleContent.innerHTML = fullHtml;
+                            updateHeadingChip(chapter.title);
                         }
 
-                        // Chỉ scroll về top khi load nội dung mới
+                        articleContent.dataset.showingContent = "true";
+                        delete articleContent.dataset.showingIntro;
+
+                        // Scroll về top
                         if (articleWrapper) articleWrapper.scrollTop = 0;
                     }
 
