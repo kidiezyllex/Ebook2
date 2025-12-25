@@ -3745,7 +3745,6 @@
         return textNodes;
       }
 
-      // ======= QUẢN LÝ CÀI ĐẶT HIỂN THỊ =======
       const gearBtn = document.getElementById("gearBtn");
       let activeSettingsForm = null;
 
@@ -4017,7 +4016,7 @@
                     </div>
                     <div class="note-form-body">
                         <div class="settings-section">
-                            <label style="font-weight: bold; margin-bottom: 8px;">Màu nền</label>
+                            <label style="font-weight: bold; margin-bottom: 8px; text-align: start">Màu nền</label>
                             <div class="color-options" id="bgColorOptions">
                                 ${bgColors
                                   .map(
@@ -4029,7 +4028,7 @@
                                     }" 
                                          style="background:${
                                            c.val
-                                         }; border: 1px solid #ddd;" 
+                                         }; border: 1px solid #ccc;" 
                                          data-val="${c.val}" title="${
                                       c.name
                                     }"></div>
@@ -4039,7 +4038,7 @@
                             </div>
                         </div>
                         <div class="settings-section">
-                             <label style="font-weight: bold; margin-bottom: 8px;">Màu chữ</label>
+                             <label style="font-weight: bold; margin-bottom: 8px; text-align: start">Màu chữ</label>
                             <div class="color-options" id="textColorOptions">
                                 ${textColors
                                   .map(
@@ -4049,7 +4048,9 @@
                                         ? "active"
                                         : ""
                                     }" 
-                                         style="background:${c.val}" 
+                                         style="background:${
+                                           c.val
+                                         }; border: 1px solid #ccc;"" 
                                          data-val="${c.val}" title="${
                                       c.name
                                     }"></div>
@@ -4059,13 +4060,13 @@
                             </div>
                         </div>
                         <div class="settings-section">
-                             <label style="font-weight: bold; margin-bottom: 8px;">Cỡ chữ</label>
+                             <label style="font-weight: bold; margin-bottom: 8px; text-align: start">Cỡ chữ</label>
                             <input type="range" min="14" max="48" value="${
                               displaySettings.fontSize
                             }" class="font-size-slider" id="fontSizeSlider">
                         </div>
                         <div class="settings-section">
-                             <label style="font-weight: bold; margin-bottom: 8px;">Font chữ</label>
+                             <label style="font-weight: bold; margin-bottom: 8px; text-align: start">Font chữ</label>
                             <select class="font-family-select" id="fontFamilySelect">
                                 ${fonts
                                   .map(
