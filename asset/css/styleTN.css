@@ -1,0 +1,75 @@
+.banquyen-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 3em 1.5em;
+  box-sizing: border-box;
+}
+
+.banquyen-wrapper .page {
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+  font-size: 1em; /* kế thừa từ root để scale theo app */
+}
+
+/* Đoạn ghi chú đầu */
+.banquyen-wrapper .note {
+  font-size: 0.9em;
+  margin-bottom: 1.8em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Tiêu đề chính */
+.banquyen-wrapper h4 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0.8em 0 1.2em 0;
+}
+
+/* Tiêu đề mục */
+.banquyen-wrapper .section-title {
+  font-weight: bold;
+  margin: 1.5em 0 0.5em;
+  font-size: 1em;
+}
+
+/* Các đoạn nội dung */
+.banquyen-wrapper p {
+  margin: 0.4em 0;
+  font-size: inherit;
+  text-align: center;
+}
+
+/* Nghiêng phần chức danh */
+.banquyen-wrapper em {
+  font-style: italic;
+}
+
+/* Đậm phần tên */
+.banquyen-wrapper strong {
+  font-weight: bold;
+}
+
+/* Gạch ngang phân tách */
+.banquyen-wrapper hr {
+  width: 90%;
+  border: none;
+  border-top: 1px solid currentColor;
+  margin: 1em auto;
+}
+
+/* Phần cuối trang */
+.banquyen-wrapper .footer {
+  font-size: 0.9em;
+  line-height: 1.5;
+  margin-top: 1.2em;
+}
+
+/* Dark mode hỗ trợ */
+.dark-mode .banquyen-wrapper {
+  background: var(--body-bg, #1a1a1a);
+  color: var(--text-color, #e5e5e5);
+}

@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./asset/css/styleChuong.css">
+</head>
+
+<body>
+  <h2>Giới thiệu NXB</h2></br>
+  <h1 id="scrollChuong">Giới thiệu NXB<span style="font-weight: normal;"></h1>
+  <p>
+    Nhà xuất bản Hội Nhà Văn, trực thuộc Hội Nhà văn Việt Nam, là đơn vị xuất bản với bề dày truyền thống và vị thế quan trọng trong hệ thống văn hóa – văn học của đất nước. Chúng tôi tự hào là nơi hội tụ tinh hoa, tâm hồn và trí tuệ của đội ngũ văn nghệ sĩ hàng đầu, đồng thời là cánh cửa quan trọng đưa những tác phẩm văn chương chất lượng cao đến với đông đảo công chúng. Mỗi cuốn sách mang dấu ấn của Nhà xuất bản Hội Nhà Văn không chỉ là một ấn phẩm mà còn là một công trình nghệ thuật được chắt lọc tinh tế.
+  </p>
+  <p>
+    Sứ mệnh của Nhà xuất bản Hội Nhà Văn là gìn giữ, phát triển và lan tỏa những giá trị tinh hoa của văn học Việt Nam và thế giới.
+  </p>
+  <p>
+    Với cuốn sách <span style="font-style: italic; font-weight: bold;">Hà Nội còn một chút này</span> của tác giả Nguyễn Ngọc Tiến, Nhà xuất bản Hội Nhà Văn mong muốn tiếp tục khẳng định vai trò là cầu nối đưa những khám phá tinh tế về văn hóa, lịch sử và con người Hà Nội đến với độc giả. Đây là một tác phẩm dung dị mà sâu sắc, giàu chất liệu văn hóa, rất phù hợp với tôn chỉ xuất bản mà chúng tôi luôn theo đuổi. Tác phẩm này là một nén hương lòng, một lời nhắc nhở nhẹ nhàng về sự cần thiết phải gìn giữ những nét đẹp thầm kín, truyền thống của Thủ đô.
+  </p>
+  <a href="#scrollChuong" class="scrollTopBtn" title="Về đầu chương">↑</a>
+
+  <style>
+    .scrollTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 8px;
+      font-size: 15px;
+      text-decoration: none;
+      opacity: 0.2;
+      transition: opacity 0.3s, background 0.3s;
+      z-index: 9999;
+    }
+
+    .scrollTopBtn:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    #scrollChuong {
+      scroll-margin-top: 400px;
+    }
+  </style>
+  <script>
+    document.addEventListener('scroll', () => {
+      const progress = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+      parent.postMessage({ type: 'progress', value: progress }, '*');
+    });
+  </script>
+</body>
+

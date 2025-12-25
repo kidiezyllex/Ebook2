@@ -1,0 +1,391 @@
+/* Load fonts (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
+
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f0f8ff;
+  /* Màu nền tổng thể cho ứng dụng */
+  overflow-y: auto;
+  /* Các thuộc tính font của body ở phía dưới sẽ áp dụng cho nội dung iframe */
+}
+
+.toolbar {
+  width: 100%;
+  height: 50px;
+  background-color: var(--blue-deep);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+.main-container {
+  display: flex;
+  flex: 1;
+  /* Chiếm phần còn lại của chiều cao */
+  width: 100%;
+  overflow: hidden;
+  /* Ngăn chặn cuộn không cần thiết */
+}
+
+/* Các quy tắc cho Sidebar và Content container */
+
+.sidebar {
+  width: 20%;
+  background: #e0f0ff;
+  padding: 15px 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  border-right: 3px solid #1d3557;
+  border-radius: 0 15px 15px 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #8fc1e3;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f0f8ff;
+}
+
+.sidebar h2 {
+  color: #1d3557;
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  cursor: pointer;
+  font-weight: bold;
+  color: #1d3557;
+  display: block;
+  margin: 10px 0;
+}
+
+.section-title:hover {
+  color: var(--blue-deep);
+}
+
+.chapter-list {
+  display: none;
+  padding-left: 15px;
+  margin: 0;
+}
+
+.chapter-list.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chapter-list li {
+  margin: 5px 0;
+  list-style: none;
+}
+
+.chapter-list a {
+  text-decoration: none;
+  font-weight: normal;
+  color: #1d3557;
+  font-size: 16px;
+  display: block;
+}
+
+.chapter-list a:hover {
+  color: var(--blue-deep);
+}
+
+/* Dấu hiệu chương đang xem */
+.chapter-list a.active {
+  color: #ff4500;
+  /* đỏ cam nổi bật */
+  font-weight: bold;
+}
+
+/* Điều chỉnh lại menu-toggle để nằm trên toolbar */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  text-align: right;
+  color: white;
+  /* Màu trắng cho dễ nhìn trên toolbar */
+  position: absolute;
+  top: 5px;
+  /* Điều chỉnh để nằm gọn trong toolbar */
+  left: 10px;
+  z-index: 200;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #1d3557;
+  border-radius: 15px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s ease-in-out;
+    z-index: 101;
+    width: 70%;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+
+
+
+
+
+/* Toàn trang */
+body {
+  font-family: 'Merriweather', Georgia, serif;
+  margin: 0;
+  background: var(--body-bg);
+  color: var(--text-color);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* Đoạn văn */
+p {
+  margin: 0 28px 18px 28px;
+  /* trái/phải rộng để có gutters */
+  text-indent: 40px;
+  text-align: justify;
+  padding: 0;
+  hyphens: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tựa chương (H1) — nổi bật, không lỗi dấu */
+h1 {
+  font-family: 'Playfair Display', 'Merriweather', serif;
+  font-size: 34px;
+  font-weight: 700;
+  margin: 18px 28px 30px 28px;
+  text-align: center;
+  color: #ff4500;
+  /* đỏ như yêu cầu */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 234, 234, 1) 50%, rgba(255, 255, 255, 1) 100%);
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Số/chỉ mục chương (H2) — dán (sticky) trên đầu khi cuộn */
+h2 {
+  font-family: 'Playfair Display', 'Merriweather', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blue-deep);
+  /* xanh dương đậm */
+  display: inline-block;
+  border: 2px solid var(--blue-deep);
+  padding: 6px 16px;
+  border-radius: 999px;
+  /* pill shape */
+  background-color: #ffffff;
+  margin: 18px 28px;
+  position: sticky;
+  top: 12px;
+  /* dính ở gần đầu cửa sổ */
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Nếu muốn H2 căn giữa thay vì căn trái, dùng:
+h2 { margin: 18px auto; display: block; }
+*/
+
+/* H3 (nếu còn dùng) */
+h3 {
+  font-family: 'Merriweather', serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.8;
+  text-indent: 60px;
+  text-align: justify;
+  margin: 12px 28px;
+}
+
+/* Hiệu ứng nhẹ khi chương xuất hiện (tùy chọn) */
+.chapter-animate {
+  animation: chapterFade 420ms ease;
+}
+
+@keyframes chapterFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Link (màu đỏ như trước) */
+a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Một vài tinh chỉnh responsive */
+@media (max-width: 800px) {
+  h1 {
+    font-size: 26px;
+    padding: 10px;
+    margin: 14px 18px 24px 18px;
+  }
+
+  h2 {
+    font-size: 18px;
+    padding: 6px 12px;
+    top: 8px;
+    margin: 12px 18px;
+  }
+
+  p {
+    margin: 0 18px 14px 18px;
+    font-size: 17px;
+  }
+}
+
+
+
+
+
+
+.toolbar {
+  width: 100%;
+  height: 50px;
+  background-color: var(--blue-deep);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* để sau này dễ thêm nút trái-phải */
+  padding: 0 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+/* Thanh trên cố định ở đầu */
+.toolbar-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Thanh dưới cố định ở cuối */
+.toolbar-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/* Để nội dung chính không bị che */
+.main-container {
+  margin-top: 50px;
+  /* chừa chỗ cho toolbar trên */
+  margin-bottom: 50px;
+  /* chừa chỗ cho toolbar dưới */
+}
+
+
+.dark-mode {
+  --body-bg: #1e293b;
+  --text-color: #f1f5f9;
+  background: var(--body-bg);
+  color: var(--text-color);
+}
+
+.toolbar button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+img {
+  display: block;
+  /* max-width: 75%; */
+  height: auto;
+  margin: 24px auto;
+  border-radius: 10px;
+}
+
+/* Loại bỏ khoảng trống thừa khi ảnh nằm giữa các đoạn */
+p+img,
+img+p {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
