@@ -17,6 +17,7 @@
             --paper-bg: #fff7e8;
             --note-bg: #fffaf0;
             --border-color: #d6b88a;
+            --dynamic-border: #e0c293;
             --text-main: #3c2b22;
             --left-sidebar-width: 297px;
             --right-sidebar-width: 260px;
@@ -63,16 +64,16 @@
 
         body {
             font-family: "Noto Serif", "Times New Roman", serif;
-            background: var(--cream-bg);
-            color: var(--text-main);
+            background: #ffffff;
+            color: #000000;
         }
 
         .app-shell {
             width: 100%;
             height: 100vh;
             background: #fdf3e3;
-            border-left: 4px solid #e0c293;
-            border-right: 4px solid #e0c293;
+            border-left: 4px solid var(--dynamic-border);
+            border-right: 4px solid var(--dynamic-border);
             display: grid;
             grid-template-columns: var(--left-sidebar-width) minmax(0, 1fr) var(--right-sidebar-width);
             transition: grid-template-columns 0.25s ease;
@@ -81,8 +82,7 @@
 
         /* LEFT SIDEBAR */
         .left-sidebar {
-            border-right: 2px solid #e0c293;
-            background: #f9e7c8;
+            background: var(--cream-bg);
             display: flex;
             flex-direction: column;
             min-width: 297px;
@@ -126,7 +126,7 @@
 
         .toc-wrapper {
             padding: 10px 18px 24px;
-            background: #fdf0d7;
+            background: var(--paper-bg);
             flex: 1;
         }
 
@@ -158,6 +158,11 @@
         .toc-list li {
             font-size: 16px;
             margin: 4px 0;
+            padding: 4px 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            border-radius: 4px;
         }
 
         .toc-list a {
@@ -169,10 +174,6 @@
             color: var(--red-main);
         }
 
-        .toc-list li {
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
 
         .toc-list li:hover {
             color: var(--red-main);
@@ -189,7 +190,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 16px;
@@ -203,7 +204,7 @@
         .toc-chapter-title .chevron {
             font-size: 10px;
             transition: transform 0.3s ease;
-            color: #d6b88a;
+            color: var(--dynamic-border);
             margin-right: 5px;
         }
 
@@ -216,7 +217,7 @@
             list-style: none;
             margin: 0 0 8px 16px;
             padding-left: 12px;
-            border-left: 2px solid #d6b88a;
+            border-left: 2px solid var(--dynamic-border);
             display: none;
         }
 
@@ -225,9 +226,9 @@
         }
 
         .toc-section {
-            font-size: 14px;
+            font-size: 15px;
             color: #6b5d4a;
-            padding: 4px 0;
+            padding: 4px 12px;
             margin: 2px 0;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -267,11 +268,11 @@
 
         /* CENTER COLUMN */
         .center-column {
-            background: var(--paper-bg);
+            background: #ffffff;
             display: flex;
             flex-direction: column;
-            border-left: 2px solid #f2d9af;
-            border-right: 2px solid #f2d9af;
+            border-left: 2px solid var(--dynamic-border);
+            border-right: 2px solid var(--dynamic-border);
             height: 100vh;
             overflow: hidden;
         }
@@ -307,7 +308,7 @@
             border: none;
             outline: none;
             width: 100%;
-            font-size: 13px;
+            font-size: 15px;
             height: 24px;
             background: transparent;
         }
@@ -375,7 +376,7 @@
             left: 0;
             width: 320px;
             background: #fffdf8;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             border-radius: 10px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
             max-height: 320px;
@@ -396,15 +397,15 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             background: #f9f3e8;
-            border-bottom: 1px solid #e8dcc4;
+            border-bottom: 1px solid var(--dynamic-border);
         }
 
         .search-result-item {
             padding: 10px 14px 10px 24px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 15px;
             color: #4a3b2d;
-            border-bottom: 1px solid #f0e6d6;
+            border-bottom: 1px solid var(--dynamic-border);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -541,7 +542,8 @@
             padding: 18px 40px 26px;
             flex: 1;
             overflow-y: auto;
-            /* Thay thế calc height cứng bằng flex: 1 để tự co giãn */
+            background: #ffffff !important;
+            color: #000000 !important;
         }
 
         .article-heading-row {
@@ -570,7 +572,7 @@
             align-items: center;
             gap: 8px;
             background: #fff;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--dynamic-border);
             color: var(--red-main);
             padding: 0 16px;
             border-radius: 999px;
@@ -620,6 +622,8 @@
             font-size: 22px;
             line-height: 1.8;
             text-align: justify;
+            background: #ffffff !important;
+            color: #000000 !important;
         }
 
         /* Ẩn H1, H2 nội bộ trong nội dung chương (đã có tiêu đề riêng ở ngoài) */
@@ -649,13 +653,13 @@
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 2px solid var(--red-main);
+            border: 1px solid var(--red-main);
             background: rgba(255, 255, 255, 0.95);
             color: var(--red-main);
-            font-size: 20px;
+            font-size: 14px;
             cursor: pointer;
             z-index: 100;
             display: flex;
@@ -673,11 +677,11 @@
         }
 
         .chapter-nav-btn.prev {
-            left: calc(297px + 24px);
+            left: calc(297px + 12px);
         }
 
         .chapter-nav-btn.next {
-            right: calc(260px + 24px);
+            right: calc(260px + 18px);
         }
 
         .chapter-nav-btn:disabled {
@@ -723,8 +727,8 @@
         .toc-list li.toc-active,
         .toc-chapter.toc-active .toc-chapter-title,
         .toc-section.toc-active {
-            color: var(--red-main);
-            font-weight: 600;
+            color: #B02022 !important;
+            font-weight: 700;
         }
 
         body.dark-theme .toc-list li.toc-active,
@@ -736,12 +740,12 @@
         /* SCROLL TO TOP BUTTON */
         .scroll-top-btn {
             position: fixed;
-            bottom: 90px;
-            right: calc(260px + 30px);
-            width: 44px;
-            height: 44px;
+            bottom: 70px;
+            right: calc(260px + 18px);
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 2px solid var(--red-main);
+            border: 1px solid var(--red-main);
             background: rgba(255, 255, 255, 0.95);
             color: var(--red-main);
             font-size: 18px;
@@ -766,6 +770,7 @@
             min-height: 500px;
             text-align: center;
             padding: 60px 40px;
+            background: #ffffff;
             animation: fadeIn 1s ease-out;
         }
 
@@ -838,14 +843,14 @@
 
         /* BOTTOM PROGRESS */
         .bottom-progress {
-            border-top: 1px solid #e4cfaa;
+            border-top: 1px solid var(--dynamic-border);
             padding: 8px 20px 10px;
             display: flex;
             align-items: center;
             gap: 12px;
             font-size: 12px;
-            color: #7a6651;
-            background: #fdf8f0;
+            color: var(--text-main);
+            background: var(--paper-bg);
             /* Luôn dính phía dưới vùng đọc ở cột giữa */
             position: sticky;
             bottom: 0;
@@ -886,7 +891,7 @@
             flex: 1;
             height: 8px;
             border-radius: 999px;
-            background: #ebddc2;
+            background: var(--dynamic-border);
             overflow: hidden;
             cursor: pointer;
             position: relative;
@@ -943,12 +948,11 @@
 
         /* RIGHT SIDEBAR */
         .right-sidebar {
-            background: #fdf3e3;
+            background: var(--paper-bg);
             padding: 12px 10px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            border-left: 2px solid #e0c293;
             height: 100vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -984,7 +988,7 @@
 
         .sidebar-tabs .tab-item {
             padding: 10px;
-            font-size: 13px;
+            font-size: 15px;
             cursor: pointer;
             width: max-content;
             background-color: transparent;
@@ -1031,7 +1035,7 @@
 
         .note-item {
             background: #fff;
-            border: 1px solid #e8dcc4;
+            border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             padding: 10px;
             font-size: 12px;
@@ -1071,7 +1075,7 @@
             align-items: center;
             margin-top: 8px;
             padding-top: 6px;
-            border-top: 1px solid #f0e8d8;
+            border-top: 1px solid var(--dynamic-border);
         }
 
         .note-item-time {
@@ -1132,7 +1136,7 @@
         .note-form {
             background: #fffdf8;
             border-radius: 12px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             width: 90%;
             max-width: 500px;
             max-height: 90vh;
@@ -1156,7 +1160,7 @@
 
         .note-form-header {
             padding: 16px 20px;
-            border-bottom: 1px solid #e8dcc4;
+            border-bottom: 1px solid var(--dynamic-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1209,7 +1213,7 @@
         .form-group textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             font-size: 13px;
             font-family: inherit;
@@ -1255,7 +1259,7 @@
 
         .note-form-footer {
             padding: 16px 20px;
-            border-top: 1px solid #e8dcc4;
+            border-top: 1px solid var(--dynamic-border);
             display: flex;
             justify-content: flex-end;
             gap: 10px;
@@ -1273,7 +1277,7 @@
 
         .note-form-footer .btn-cancel {
             background: #fff;
-            border-color: #d6c7a8;
+            border-color: var(--dynamic-border);
             color: #7a6651;
         }
 
@@ -1345,7 +1349,7 @@
 
         .annotation-item {
             background: #fff;
-            border: 1px solid #e8dcc4;
+            border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             padding: 10px;
             font-size: 12px;
@@ -1366,7 +1370,7 @@
             margin-bottom: 8px;
             font-size: 11px;
             color: #7a6651;
-            border-left: 3px solid #d6c7a8;
+            border-left: 3px solid var(--dynamic-border);
         }
 
         .annotation-item-content {
@@ -1381,7 +1385,7 @@
             align-items: center;
             margin-top: 8px;
             padding-top: 6px;
-            border-top: 1px solid #f0e8d8;
+            border-top: 1px solid var(--dynamic-border);
         }
 
         .annotation-item-time {
@@ -1418,7 +1422,7 @@
         .note-card {
             background: #fffdf8;
             border-radius: 8px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -1427,11 +1431,11 @@
 
         .note-card-header {
             padding: 8px 12px;
-            border-bottom: 1px solid #e8dcc4;
+            border-bottom: 1px solid var(--dynamic-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 600;
             color: #4a3b2d;
         }
@@ -1440,7 +1444,7 @@
             width: 22px;
             height: 22px;
             border-radius: 4px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             background: white;
             display: flex;
             align-items: center;
@@ -1499,34 +1503,34 @@
 
         /* Settings Dialog Specific */
         .settings-dialog {
-            background: #23394d !important;
-            /* Dark blue from image */
-            color: white !important;
-            border: none !important;
+            background: #fffdf8 !important;
+            color: #4a3b2d !important;
+            border: 1px solid var(--border-color) !important;
         }
 
         .settings-dialog .note-form-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid var(--border-color) !important;
         }
 
         .settings-dialog .note-form-header h3 {
-            color: white !important;
+            color: #4a3b2d !important;
             font-family: "Playfair Display", serif;
         }
 
         .settings-dialog .close-btn {
-            color: white !important;
+            color: #7a6651 !important;
         }
 
         .settings-section {
+            display: flex;
+            flex-direction: column;
             margin-bottom: 24px;
         }
 
         .settings-section label {
-            color: white !important;
+            color: #4a3b2d !important;
             font-size: 15px !important;
-            margin-bottom: 12px !important;
-            font-family: "Playfair Display", serif;
+            margin-bottom: 8px !important;
         }
 
         .color-options {
@@ -1577,16 +1581,16 @@
             width: 100%;
             padding: 10px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #ffffff;
+            color: #4a3b2d;
+            border: 1px solid var(--dynamic-border);
             outline: none;
             font-family: inherit;
         }
 
         .font-family-select option {
-            background: #23394d;
-            color: white;
+            background: #ffffff;
+            color: #4a3b2d;
         }
 
         .highlight-mark:hover {
@@ -1634,7 +1638,7 @@
         .highlight-popup {
             position: absolute;
             background: #fffdf8;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             padding: 8px 10px;
@@ -1660,7 +1664,7 @@
             width: 100%;
             min-height: 40px;
             border-radius: 4px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             padding: 4px 6px;
             font-family: inherit;
             font-size: 12px;
@@ -1680,7 +1684,7 @@
             padding: 4px 8px;
             font-size: 12px;
             border-radius: 4px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             cursor: pointer;
             background: #f5efe5;
         }
@@ -1695,7 +1699,7 @@
         .sidebar-highlight-item {
             padding: 8px;
             border-radius: 6px;
-            border: 1px solid #e8dcc4;
+            border: 1px solid var(--dynamic-border);
             background: #fff;
             cursor: pointer;
             margin-bottom: 8px;
@@ -1704,7 +1708,7 @@
         }
 
         .sidebar-highlight-item:hover {
-            border-color: #d6c7a8;
+            border-color: var(--dynamic-border);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -1721,7 +1725,7 @@
             color: #7a6651;
             margin-top: 6px;
             padding-top: 6px;
-            border-top: 1px solid #f0e8d8;
+            border-top: 1px solid var(--dynamic-border);
         }
 
         .sidebar-highlight-item .highlight-color-indicator {
@@ -1739,7 +1743,7 @@
             gap: 4px;
             margin-top: 6px;
             padding-top: 6px;
-            border-top: 1px solid #f0e8d8;
+            border-top: 1px solid var(--dynamic-border);
         }
 
         .sidebar-highlight-item .highlight-actions button {
@@ -1776,7 +1780,7 @@
             width: 340px;
             height: 420px;
             background: #fffdf8;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             display: none;
@@ -1786,7 +1790,7 @@
 
         #chatPanelHeader {
             padding: 8px 10px;
-            border-bottom: 1px solid #e0c293;
+            border-bottom: 1px solid var(--dynamic-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1828,7 +1832,7 @@
 
         #chatInputArea {
             padding: 6px 8px;
-            border-top: 1px solid #e0c293;
+            border-top: 1px solid var(--dynamic-border);
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -1840,7 +1844,7 @@
             max-height: 90px;
             resize: vertical;
             border-radius: 6px;
-            border: 1px solid #d6c7a8;
+            border: 1px solid var(--dynamic-border);
             padding: 4px 6px;
             font-family: inherit;
             font-size: 12px;
@@ -1892,15 +1896,16 @@
             color: #f5f5f5;
         }
 
-        /* Dark theme overrides */
         body.dark-theme {
+            --dynamic-border: #5c4b31;
+            --border-color: #3d352c;
             background: #181818;
             color: #f5f5f5;
         }
 
         body.dark-theme .app-shell {
-            border-left-color: #3a2a1a;
-            border-right-color: #3a2a1a;
+            border-left-color: var(--dynamic-border);
+            border-right-color: var(--dynamic-border);
         }
 
         body.dark-theme .center-column {
@@ -1909,7 +1914,7 @@
 
         body.dark-theme .left-sidebar {
             background: #252525;
-            border-right-color: #3a2a1a;
+            border-right-color: var(--dynamic-border);
         }
 
         body.dark-theme .right-sidebar {
@@ -1922,7 +1927,7 @@
 
         body.dark-theme .title-block {
             background: #252525;
-            border-bottom-color: #3a2a1a;
+            border-bottom-color: var(--dynamic-border);
         }
 
         body.dark-theme .top-toolbar {
@@ -1931,12 +1936,12 @@
 
         body.dark-theme .note-card {
             background: #2b2b2b;
-            border-color: #444444;
+            border-color: var(--dynamic-border);
         }
 
         body.dark-theme .note-card-header {
             background: #333333;
-            border-bottom-color: #444444;
+            border-bottom-color: var(--dynamic-border);
         }
 
         body.dark-theme .note-card-header button {
@@ -1954,7 +1959,7 @@
         }
 
         body.dark-theme .bottom-progress {
-            border-top-color: #444444;
+            border-top-color: var(--dynamic-border);
             color: #cfcfcf;
         }
 
@@ -2234,6 +2239,205 @@
             height: 30px;
             background: var(--red-main);
         }
+
+        /* --- DARK THEME STYLES (OVERRIDE) --- */
+        /* These styles apply when the Moon icon (Dark Theme) is toggled */
+        body.dark-theme .app-shell {
+            background: #121212 !important;
+            border-color: var(--dynamic-border) !important;
+        }
+
+        body.dark-theme .left-sidebar,
+        body.dark-theme .right-sidebar {
+            background: #1a1a1a !important;
+            border-color: var(--dynamic-border) !important;
+        }
+
+        body.dark-theme .toc-wrapper,
+        body.dark-theme .toc-list,
+        body.dark-theme .note-card-body,
+        body.dark-theme .annotations-list,
+        body.dark-theme .notes-list {
+            background: transparent !important;
+        }
+
+        body.dark-theme .toc-title,
+        body.dark-theme .note-card-header span {
+            color: #f5c86b !important;
+        }
+
+        body.dark-theme .toc-chapter-title,
+        body.dark-theme .toc-section,
+        body.dark-theme .note-item-content,
+        body.dark-theme .annotation-item-content,
+        body.dark-theme .sidebar-tabs .tab-item,
+        body.dark-theme .note-item-time,
+        body.dark-theme .annotation-item-time {
+            color: #d1d1d1 !important;
+        }
+
+        body.dark-theme .toc-chapter-title:hover,
+        body.dark-theme .toc-section:hover,
+        body.dark-theme .sidebar-tabs .tab-item.active {
+            color: #f5c86b !important;
+            border-bottom-color: #f5c86b !important;
+        }
+
+        body.dark-theme .toc-section-title {
+            color: #f5c86b !important;
+            border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        body.dark-theme .note-card {
+            background: #252525 !important;
+            border: 1px solid var(--dynamic-border) !important;
+        }
+
+        body.dark-theme .note-card-header button {
+            background: #333 !important;
+            border: 1px solid var(--dynamic-border) !important;
+            color: #ccc !important;
+        }
+
+        body.dark-theme .top-block {
+            background: #111 !important;
+        }
+
+        body.dark-theme .top-toolbar {
+            background: #1a1a1a !important;
+            border: 1px solid var(--dynamic-border) !important;
+        }
+
+        body.dark-theme .book-title-toolbar {
+            color: #eee !important;
+        }
+
+        body.dark-theme .search-box {
+            background: #2a2a2a !important;
+            border: 1px solid var(--dynamic-border) !important;
+        }
+
+        body.dark-theme .search-box input {
+            color: #eee !important;
+        }
+
+        body.dark-theme .search-box i {
+            color: #aaa !important;
+        }
+
+        body.dark-theme .title-block {
+            background: #111 !important;
+            border-bottom: 2px solid var(--dynamic-border);
+        }
+
+        body.dark-theme .book-title {
+            color: #f5c86b !important;
+        }
+
+        body.dark-theme .book-author {
+            background: #333 !important;
+            color: #f5c86b !important;
+        }
+
+        body.dark-theme .bottom-progress {
+            background: #111 !important;
+            border-top-color: #333 !important;
+        }
+
+        body.dark-theme .progress-nav-btn {
+            border-color: #f5c86b !important;
+            color: #f5c86b !important;
+        }
+
+        body.dark-theme .scroll-progress-text {
+            color: #eee !important;
+        }
+
+        body.dark-theme .center-column {
+            background: #121212 !important;
+        }
+
+        body.dark-theme .scroll-top-btn {
+            background: #1a1a1a !important;
+            border-color: #f5c86b !important;
+            color: #f5c86b !important;
+        }
+
+        /* The article-wrapper and article-content are intentionally omitted here 
+           to ensure they stay white (or their custom color) and are not affected by the theme toggle. */
+        /* --- END DARK THEME --- */
+
+        /* DYNAMIC BORDER GLOBAL OVERRIDES */
+        .left-sidebar {
+            border-right-color: var(--dynamic-border) !important;
+        }
+
+        .right-sidebar {
+            border-left-color: var(--dynamic-border) !important;
+        }
+
+        .center-column {
+            border-left: 2px solid var(--dynamic-border) !important;
+            border-right: 2px solid var(--dynamic-border) !important;
+        }
+
+        .top-toolbar {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .note-card {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .note-card-header {
+            border-bottom-color: var(--dynamic-border) !important;
+        }
+
+        .note-item,
+        .annotation-item,
+        .sidebar-highlight-item {
+            border: 1px solid var(--dynamic-border) !important;
+        }
+
+        .note-form {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .note-form-header {
+            border-bottom-color: var(--dynamic-border) !important;
+        }
+
+        .note-form-footer {
+            border-top-color: var(--dynamic-border) !important;
+        }
+
+        .form-group textarea {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .search-box {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .sidebar-tabs .tab-item:hover {
+            border-bottom-color: var(--dynamic-border) !important;
+        }
+
+        .bottom-progress {
+            border-top-color: var(--dynamic-border) !important;
+        }
+
+        #searchDropdown {
+            border-color: var(--dynamic-border) !important;
+        }
+
+        .search-result-item {
+            border-bottom-color: var(--dynamic-border) !important;
+        }
+
+        .highlight-popup {
+            border-color: var(--dynamic-border) !important;
+        }
     </style>
 </head>
 
@@ -2409,7 +2613,7 @@
                     <div id="notesList" class="notes-list">
                         <div class="empty-state" id="notesEmptyState">
                             <i class="fa-regular fa-note-sticky"
-                                style="font-size: 32px; color: #d6c7a8; margin-bottom: 8px;"></i>
+                                style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i>
                             <p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có ghi chú nào.</p>
                             <p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
                                 để thêm ghi chú mới</p>
@@ -2445,7 +2649,7 @@
                     <div id="annotationsList" class="annotations-list">
                         <div class="empty-state" id="annotationsEmptyState">
                             <i class="fa-regular fa-comment"
-                                style="font-size: 32px; color: #d6c7a8; margin-bottom: 8px;"></i>
+                                style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i>
                             <p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có chú thích nào.</p>
                             <p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
                                 để thêm chú thích mới</p>
@@ -2819,7 +3023,7 @@
         function renderHighlightList() {
             if (!highlightList) return;
             if (!highlights.length) {
-                highlightList.innerHTML = '<div class="empty-state"><i class="fa-regular fa-highlighter" style="font-size: 32px; color: #d6c7a8; margin-bottom: 8px;"></i><p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có đánh dấu nào.</p><p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Bật chế độ highlight và chọn text để đánh dấu</p></div>';
+                highlightList.innerHTML = '<div class="empty-state"><i class="fa-regular fa-highlighter" style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i><p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có đánh dấu nào.</p><p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Bật chế độ highlight và chọn text để đánh dấu</p></div>';
                 return;
             }
 
@@ -3290,10 +3494,10 @@
 
         // Default settings
         let displaySettings = {
-            bgColor: '#fff7e8',
-            textColor: '#3c2b22',
-            fontSize: 18,
-            fontFamily: 'Merriweather'
+            bgColor: '#ffffff',
+            textColor: '#000000',
+            fontSize: 22,
+            fontFamily: 'Noto Serif'
         };
 
         // Load settings
@@ -3302,30 +3506,125 @@
             displaySettings = { ...displaySettings, ...JSON.parse(savedSettings) };
         }
 
+        // Helper function: Calculate border color based on background brightness
+        function calculateBorderColor(bgColor) {
+            // Convert hex to RGB
+            let r, g, b;
+            if (bgColor.startsWith('#')) {
+                const hex = bgColor.replace('#', '');
+                r = parseInt(hex.substr(0, 2), 16);
+                g = parseInt(hex.substr(2, 2), 16);
+                b = parseInt(hex.substr(4, 2), 16);
+            } else if (bgColor.startsWith('rgb')) {
+                const match = bgColor.match(/\d+/g);
+                if (match) {
+                    r = parseInt(match[0]);
+                    g = parseInt(match[1]);
+                    b = parseInt(match[2]);
+                }
+            } else {
+                return '#d6b88a';
+            }
+
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+            function rgbToHex(r, g, b) {
+                return '#' + [r, g, b].map(x => {
+                    const hex = Math.max(0, Math.min(255, Math.round(x))).toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                }).join('');
+            }
+
+            if (luminance < 0.3) {
+                const lightenAmount = 70;
+                return rgbToHex(
+                    Math.min(255, r + lightenAmount),
+                    Math.min(255, g + lightenAmount),
+                    Math.min(255, b + lightenAmount)
+                );
+            } else {
+                const darkenAmount = 40;
+                return rgbToHex(
+                    Math.max(0, r - darkenAmount),
+                    Math.max(0, g - darkenAmount),
+                    Math.max(0, b - darkenAmount)
+                );
+            }
+        }
+
         // Apply settings initially
+        console.log('Initial --dynamic-border:', getComputedStyle(document.documentElement).getPropertyValue('--dynamic-border').trim());
         applyDisplaySettings();
 
         function applyDisplaySettings() {
             const wrapper = document.querySelector('.article-wrapper');
             const content = document.querySelector('.article-content');
-            const centerCol = document.querySelector('.center-column');
 
-            if (wrapper) wrapper.style.backgroundColor = displaySettings.bgColor;
-            if (centerCol) centerCol.style.backgroundColor = displaySettings.bgColor;
+            // 1. FORCED ARTICLE COLORS: Always white background and black text as requested
+            const fixedArticleBg = '#ffffff';
+            const fixedArticleText = '#000000';
+
+            if (wrapper) {
+                wrapper.style.setProperty('background', fixedArticleBg, 'important');
+                wrapper.style.setProperty('color', fixedArticleText, 'important');
+            }
+
             if (content) {
-                content.style.color = displaySettings.textColor;
-                content.style.fontSize = `${displaySettings.fontSize}px`;
-                content.style.fontFamily = `"${displaySettings.fontFamily}", serif`;
+                // Apply ONLY font size and family to the article content
+                content.style.setProperty('font-size', `${displaySettings.fontSize}px`, 'important');
+                content.style.setProperty('font-family', `"${displaySettings.fontFamily}", serif`, 'important');
 
-                // Cập nhật tất cả text trong nội dung
-                const allP = content.querySelectorAll('p, div, span, h2, h3');
-                allP.forEach(el => {
-                    if (!el.classList.contains('chapter-intro-num') && !el.classList.contains('chapter-intro-title')) {
-                        el.style.color = displaySettings.textColor;
-                        el.style.fontFamily = `"${displaySettings.fontFamily}", serif`;
+                // Force white/black for the reading area
+                content.style.setProperty('color', fixedArticleText, 'important');
+                content.style.setProperty('background', fixedArticleBg, 'important');
+
+                const textElements = content.querySelectorAll('*');
+                textElements.forEach(el => {
+                    const skippedTags = ['IMG', 'PICTURE', 'FIGURE', 'SCRIPT', 'STYLE', 'BR', 'HR', 'AUDIO', 'VIDEO'];
+                    if (skippedTags.indexOf(el.tagName) === -1) {
+                        el.style.setProperty('color', fixedArticleText, 'important');
+                        el.style.setProperty('font-family', `"${displaySettings.fontFamily}", serif`, 'important');
+                        el.style.setProperty('font-size', `${displaySettings.fontSize}px`, 'important');
                     }
                 });
+
+                // Also force white/black for the chapter intro
+                const introContainer = document.querySelector('.chapter-intro-container');
+                if (introContainer) {
+                    introContainer.style.setProperty('background', fixedArticleBg, 'important');
+                    const introNum = introContainer.querySelector('.chapter-intro-num');
+                    const introTitle = introContainer.querySelector('.chapter-intro-title');
+                    if (introNum) introNum.style.setProperty('color', fixedArticleText, 'important');
+                    if (introTitle) introTitle.style.setProperty('color', fixedArticleText, 'important');
+                }
             }
+
+            // 2. DYNAMICALLY UPDATE --dynamic-border based on selected bgColor
+            const newBorderColor = calculateBorderColor(displaySettings.bgColor);
+            document.documentElement.style.setProperty('--dynamic-border', newBorderColor);
+            console.log('Updated --dynamic-border to:', newBorderColor, 'based on bgColor:', displaySettings.bgColor);
+
+            // 3. UI COLORS: Apply user-selected bgColor and textColor to sidebars and top block
+            const uiSelectors = ['.left-sidebar', '.right-sidebar', '.top-block', '.bottom-progress', '.center-column', '.toc-wrapper', '.note-card', '.note-item', '.annotation-item', '.sidebar-highlight-item'];
+            uiSelectors.forEach(selector => {
+                const el = document.querySelector(selector);
+                if (el) {
+                    el.style.setProperty('background', displaySettings.bgColor, 'important');
+                    el.style.setProperty('color', displaySettings.textColor, 'important');
+
+                    // Specific overrides for text elements inside UI
+                    const children = el.querySelectorAll('.toc-title, .toc-chapter-title, .toc-section, .toc-section-title, .tab-item, .note-card-header span, .note-item-content, .annotation-item-content, .book-title-toolbar, .scroll-progress-text');
+                    children.forEach(child => {
+                        // Bỏ qua nếu phần tử đang là toc-active
+                        if (!child.classList.contains('toc-active')) {
+                            child.style.setProperty('color', displaySettings.textColor, 'important');
+                        } else {
+                            // Nếu là toc-active, đảm bảo dùng màu đỏ
+                            child.style.setProperty('color', '#B02022', 'important');
+                        }
+                    });
+                }
+            });
         }
 
         function showSettingsDialog() {
@@ -3336,7 +3635,7 @@
 
             const bgColors = [
                 { name: 'Trắng', val: '#ffffff' },
-                { name: 'Kem', val: '#f5e5c7' },
+                { name: 'Kem', val: '#FDF3E3' },
                 { name: 'Xanh lá', val: '#e8f5e9' },
                 { name: 'Đen', val: '#1a1a1a' },
                 { name: 'Xanh dương', val: '#e3f2fd' },
@@ -3345,11 +3644,10 @@
 
             const textColors = [
                 { name: 'Đen', val: '#000000' },
+                { name: 'Trắng', val: '#ffffff' },
                 { name: 'Đỏ', val: '#b02022' },
                 { name: 'Xanh', val: '#0000ff' },
-                { name: 'Nâu', val: '#5d4037' },
-                { name: 'Tím', val: '#673ab7' },
-                { name: 'Xanh lá', val: '#2e7d32' }
+                { name: 'Nâu', val: '#5d4037' }
             ];
 
             const fonts = ['Merriweather', 'Playfair Display', 'Arial', 'Noto Serif', 'Parisienne', 'PT Serif'];
@@ -3362,7 +3660,7 @@
                     </div>
                     <div class="note-form-body">
                         <div class="settings-section">
-                            <label>Màu nền</label>
+                            <label style="font-weight: bold; margin-bottom: 8px;">Màu nền</label>
                             <div class="color-options" id="bgColorOptions">
                                 ${bgColors.map(c => `
                                     <div class="color-circle ${displaySettings.bgColor === c.val ? 'active' : ''}" 
@@ -3372,7 +3670,7 @@
                             </div>
                         </div>
                         <div class="settings-section">
-                            <label>Màu chữ</label>
+                             <label style="font-weight: bold; margin-bottom: 8px;">Màu chữ</label>
                             <div class="color-options" id="textColorOptions">
                                 ${textColors.map(c => `
                                     <div class="color-circle ${displaySettings.textColor === c.val ? 'active' : ''}" 
@@ -3382,11 +3680,11 @@
                             </div>
                         </div>
                         <div class="settings-section">
-                            <label>Cỡ chữ</label>
-                            <input type="range" min="14" max="36" value="${displaySettings.fontSize}" class="font-size-slider" id="fontSizeSlider">
+                             <label style="font-weight: bold; margin-bottom: 8px;">Cỡ chữ</label>
+                            <input type="range" min="14" max="48" value="${displaySettings.fontSize}" class="font-size-slider" id="fontSizeSlider">
                         </div>
                         <div class="settings-section">
-                            <label>Font chữ</label>
+                             <label style="font-weight: bold; margin-bottom: 8px;">Font chữ</label>
                             <select class="font-family-select" id="fontFamilySelect">
                                 ${fonts.map(f => `<option value="${f}" ${displaySettings.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('')}
                             </select>
@@ -3407,7 +3705,7 @@
 
             overlay.onclick = (e) => { if (e.target === overlay) overlay.querySelector('.close-btn').onclick(); };
 
-            // BG Color
+            // Colors and Settings
             overlay.querySelectorAll('#bgColorOptions .color-circle').forEach(el => {
                 el.onclick = () => {
                     overlay.querySelectorAll('#bgColorOptions .color-circle').forEach(c => c.classList.remove('active'));
@@ -3417,7 +3715,6 @@
                 };
             });
 
-            // Text Color
             overlay.querySelectorAll('#textColorOptions .color-circle').forEach(el => {
                 el.onclick = () => {
                     overlay.querySelectorAll('#textColorOptions .color-circle').forEach(c => c.classList.remove('active'));
@@ -3471,7 +3768,7 @@
                             <label>Đoạn text được chú thích: <span style="color: #dc3545;">*</span></label>
                             <div style="position: relative;">
                                 <textarea id="annotationRelatedText" rows="3" placeholder="Chọn đoạn text trong bài hoặc nhập thủ công...">${annotation ? (annotation.relatedText || '') : (relatedText || '')}</textarea>
-                                <button id="selectTextBtn" style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; font-size: 11px; border: 1px solid #d6c7a8; background: #fff; border-radius: 4px; cursor: pointer; color: #7a6651;">Chọn text</button>
+                                <button id="selectTextBtn" style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; font-size: 11px; border: 1px solid var(--dynamic-border); background: #fff; border-radius: 4px; cursor: pointer; color: #7a6651;">Chọn text</button>
                             </div>
                             <p style="font-size: 11px; color: #9a8a7a; margin-top: 4px;">Nhấn "Chọn text" để chọn đoạn text trong bài hoặc nhập thủ công</p>
                         </div>
@@ -3636,6 +3933,13 @@
             }
         }
 
+        // Add note button handler
+        if (addNoteBtn) {
+            addNoteBtn.addEventListener('click', () => {
+                showNoteForm();
+            });
+        }
+
         // Add annotation button handler
         if (addAnnotationBtn) {
             addAnnotationBtn.addEventListener('click', () => {
@@ -3688,11 +3992,11 @@
                 + '</div>'
                 + '<div style="margin: 12px 0;"><label style="font-size: 12px; color: #4a3b2d; margin-bottom: 6px; display: block;">Chọn màu:</label>'
                 + '  <div style="display: flex; gap: 8px;">'
-                + '    <button type="button" class="color-btn" data-color="yellow" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid #d6c7a8; background: #ffdd71; cursor: pointer;" title="Vàng"></button>'
-                + '    <button type="button" class="color-btn" data-color="blue" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid #d6c7a8; background: #a8d5ff; cursor: pointer;" title="Xanh"></button>'
-                + '    <button type="button" class="color-btn" data-color="pink" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid #d6c7a8; background: #ffb3d9; cursor: pointer;" title="Hồng"></button>'
-                + '    <button type="button" class="color-btn" data-color="green" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid #d6c7a8; background: #b3ffb3; cursor: pointer;" title="Xanh lá"></button>'
-                + '    <button type="button" class="color-btn" data-color="orange" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid #d6c7a8; background: #ffcc99; cursor: pointer;" title="Cam"></button>'
+                + '    <button type="button" class="color-btn" data-color="yellow" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #ffdd71; cursor: pointer;" title="Vàng"></button>'
+                + '    <button type="button" class="color-btn" data-color="blue" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #a8d5ff; cursor: pointer;" title="Xanh"></button>'
+                + '    <button type="button" class="color-btn" data-color="pink" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #ffb3d9; cursor: pointer;" title="Hồng"></button>'
+                + '    <button type="button" class="color-btn" data-color="green" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #b3ffb3; cursor: pointer;" title="Xanh lá"></button>'
+                + '    <button type="button" class="color-btn" data-color="orange" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #ffcc99; cursor: pointer;" title="Cam"></button>'
                 + '  </div>'
                 + '</div>'
                 + '<textarea id="hlNoteText" placeholder="Nội dung ghi chú (tùy chọn)..."></textarea>'
@@ -3718,7 +4022,7 @@
                 }
                 btn.addEventListener('click', function () {
                     selectedColor = this.dataset.color;
-                    colorBtns.forEach(b => b.style.border = '2px solid #d6c7a8');
+                    colorBtns.forEach(b => b.style.border = '2px solid var(--border-color)');
                     this.style.border = '2px solid #4a3b2d';
                 });
             });
@@ -4582,9 +4886,9 @@
             // Load nội dung từ file
             const articleWrapper = document.querySelector('.article-wrapper');
 
+            highlightTocItem(currentChapterIndex, sectionIndex);
+
             if (articleContent && chapter.file) {
-                // Áp dụng cài đặt font/màu trước khi load
-                applyDisplaySettings();
                 try {
                     // Luôn fetch nội dung trước
                     const isSameChapter = articleContent.dataset.chapterId === chapter.id;
@@ -4664,6 +4968,9 @@
                         }
                     }
                     if (articleWrapper) articleWrapper.scrollTop = 0;
+
+                    // Re-apply display settings after content is loaded and TOC is highlighted
+                    applyDisplaySettings();
                 } catch (error) {
                     console.error('Lỗi khi tải chương:', error);
                     articleContent.innerHTML = `
@@ -4675,9 +4982,6 @@
                     `;
                 }
             }
-
-            // Highlight chương trong mục lục
-            highlightTocItem(currentChapterIndex, sectionIndex);
 
             // Scroll lên đầu nội dung nếu không có sectionIndex
             if (sectionIndex === null && articleWrapper) {
