@@ -119,7 +119,7 @@ iframe {
     border-radius: 10px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     z-index: 300;
-    padding: 20px;
+    padding: 16px;
     box-sizing: border-box;
 }
 

@@ -131,7 +131,7 @@
         }
 
         .toc-title {
-            font-family: "Playfair Display", "Times New Roman", serif;
+            font-family: "Arial", serif;
             font-size: 24px;
             text-align: center;
             margin-bottom: 12px;
@@ -185,6 +185,7 @@
         }
 
         .toc-chapter-title {
+            font-family: "Arial", serif;
             font-weight: 700;
             color: #4a3b2d;
             display: flex;
@@ -202,7 +203,7 @@
         }
 
         .toc-chapter-title .chevron {
-            font-size: 10px;
+            font-size: 14px;
             transition: transform 0.3s ease;
             color: var(--dynamic-border);
             margin-right: 5px;
@@ -226,13 +227,15 @@
         }
 
         .toc-section {
-            font-size: 15px;
+            font-size: 16px;
             color: #6b5d4a;
             padding: 4px 12px;
             margin: 2px 0;
             cursor: pointer;
             transition: all 0.2s ease;
             line-height: 1.4;
+            font-weight: 500;
+            font-family: "Arial", serif;
         }
 
         .toc-section:hover {
@@ -243,7 +246,7 @@
         /* Highlight chương được tìm thấy */
         .toc-list li.search-active {
             background: #ffdd71;
-            padding: 4px 8px;
+            padding: 4px 0px;
             margin: 2px -8px;
             border-radius: 4px;
             animation: pulse-highlight 0.5s ease-in-out 3;
@@ -285,9 +288,11 @@
             align-items: center;
             width: 100%;
             border-radius: 10px;
-            margin: 16px auto;
+            margin: 12px auto;
             justify-content: space-between;
             color: white;
+            position: relative;
+            z-index: 100;
         }
 
         /* Unified Search Bar */
@@ -308,13 +313,13 @@
             border: none;
             outline: none;
             width: 100%;
-            font-size: 15px;
+            font-size: 14px;
             height: 24px;
             background: transparent;
         }
 
         .search-box .search-count {
-            font-size: 11px;
+            font-size: 14px;
             color: #666;
             min-width: 40px;
             text-align: center;
@@ -330,7 +335,7 @@
             cursor: pointer;
             color: var(--red-main);
             padding: 2px 4px;
-            font-size: 12px;
+            font-size: 14px;
             transition: opacity 0.2s;
             display: flex;
             align-items: center;
@@ -391,7 +396,7 @@
 
         .search-result-section {
             padding: 6px 14px 4px;
-            font-size: 11px;
+            font-size: 14px;
             color: #888;
             font-weight: 700;
             text-transform: uppercase;
@@ -403,7 +408,7 @@
         .search-result-item {
             padding: 10px 14px 10px 24px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 16px;
             color: #4a3b2d;
             border-bottom: 1px solid var(--dynamic-border);
             display: flex;
@@ -420,7 +425,7 @@
         }
 
         .search-result-item i {
-            font-size: 11px;
+            font-size: 14px;
             color: var(--red-main);
         }
 
@@ -432,7 +437,7 @@
 
         .search-no-result {
             padding: 16px 14px;
-            font-size: 13px;
+            font-size: 14px;
             color: #888;
             text-align: center;
         }
@@ -483,12 +488,12 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             background: rgba(255, 255, 255, 0.06);
             color: #fff7e8;
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
         }
 
         .top-toolbar .icon-btn i {
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .top-toolbar .icon-btn.active {
@@ -508,7 +513,7 @@
             background: rgba(255, 255, 255, 0.06);
             color: #fff7e8;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .top-toolbar .icon-toggle.active {
@@ -534,7 +539,15 @@
             background: #f5c95b;
             padding: 6px 24px;
             border-radius: 999px;
-            font-size: 13px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 8px;
+            font-family: "Arial", serif;
+        }
+
+        /* Cursor highlight mode */
+        body.highlight-mode-active .article-content {
+            cursor: crosshair !important;
         }
 
         /* ARTICLE HEADER */
@@ -565,6 +578,7 @@
             transition: all 0.3s ease;
             font-size: 14px;
             font-weight: 500;
+            font-family: "Arial", serif;
         }
 
         .chapter-audio-btn {
@@ -577,7 +591,7 @@
             padding: 0 16px;
             border-radius: 999px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             height: 30px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -728,7 +742,6 @@
         .toc-chapter.toc-active .toc-chapter-title,
         .toc-section.toc-active {
             color: #B02022 !important;
-            font-weight: 700;
         }
 
         body.dark-theme .toc-list li.toc-active,
@@ -848,7 +861,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--text-main);
             background: var(--paper-bg);
             /* Luôn dính phía dưới vùng đọc ở cột giữa */
@@ -984,11 +997,12 @@
             justify-content: center;
             gap: 5px;
             padding: 0 10px;
+            font-family: "Arial", serif;
         }
 
         .sidebar-tabs .tab-item {
             padding: 10px;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             width: max-content;
             background-color: transparent;
@@ -1022,7 +1036,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 16px;
             text-align: center;
         }
 
@@ -1038,7 +1052,7 @@
             border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             padding: 10px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             color: #4a3b2d;
             position: relative;
@@ -1058,7 +1072,7 @@
 
         .note-item-preview {
             color: #7a6651;
-            font-size: 11px;
+            font-size: 14px;
             margin-bottom: 6px;
             font-style: italic;
         }
@@ -1079,7 +1093,7 @@
         }
 
         .note-item-time {
-            font-size: 10px;
+            font-size: 14px;
             color: #9a8a7a;
         }
 
@@ -1098,7 +1112,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 14px;
             color: #7a6651;
             transition: all 0.2s;
         }
@@ -1193,7 +1207,7 @@
         }
 
         .note-form-body {
-            padding: 20px;
+            padding: 16px;
             flex: 1;
             overflow-y: auto;
         }
@@ -1204,7 +1218,7 @@
 
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #4a3b2d;
             margin-bottom: 6px;
@@ -1215,7 +1229,7 @@
             padding: 10px;
             border: 1px solid var(--dynamic-border);
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 14px;
             font-family: inherit;
             color: #4a3b2d;
             background: #fff;
@@ -1268,7 +1282,7 @@
         .note-form-footer button {
             padding: 8px 20px;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -1352,7 +1366,7 @@
             border: 1px solid var(--dynamic-border);
             border-radius: 6px;
             padding: 10px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             color: #4a3b2d;
             position: relative;
@@ -1368,7 +1382,7 @@
             padding: 6px 8px;
             border-radius: 4px;
             margin-bottom: 8px;
-            font-size: 11px;
+            font-size: 14px;
             color: #7a6651;
             border-left: 3px solid var(--dynamic-border);
         }
@@ -1389,7 +1403,7 @@
         }
 
         .annotation-item-time {
-            font-size: 10px;
+            font-size: 14px;
             color: #9a8a7a;
         }
 
@@ -1408,7 +1422,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 14px;
             color: #7a6651;
             transition: all 0.2s;
         }
@@ -1420,13 +1434,14 @@
 
         /* Note cards */
         .note-card {
-            background: #fffdf8;
+            background: white;
             border-radius: 8px;
             border: 1px solid var(--dynamic-border);
             display: flex;
             flex-direction: column;
             flex: 1;
             min-height: 100px;
+            font-family: "Arial", serif;
         }
 
         .note-card-header {
@@ -1435,7 +1450,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: #4a3b2d;
         }
@@ -1450,7 +1465,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 14px;
             color: #7a6651;
         }
 
@@ -1465,7 +1480,7 @@
         }
 
         .note-content {
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             color: #4a3b2d;
         }
@@ -1486,7 +1501,7 @@
             resize: none;
             background: transparent;
             font-family: inherit;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             outline: none;
             color: #4a3b2d;
@@ -1642,14 +1657,14 @@
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             padding: 8px 10px;
-            font-size: 12px;
+            font-size: 14px;
             z-index: 9999;
-            width: 220px;
+            width: 240px;
         }
 
         .highlight-popup h4 {
             margin-bottom: 6px;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -1667,7 +1682,7 @@
             border: 1px solid var(--dynamic-border);
             padding: 4px 6px;
             font-family: inherit;
-            font-size: 12px;
+            font-size: 14px;
             resize: vertical;
             margin-top: 4px;
             box-sizing: border-box;
@@ -1682,7 +1697,7 @@
 
         .highlight-popup button {
             padding: 4px 8px;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 4px;
             border: 1px solid var(--dynamic-border);
             cursor: pointer;
@@ -1713,7 +1728,7 @@
         }
 
         .sidebar-highlight-item .preview {
-            font-size: 12px;
+            font-size: 14px;
             color: #4a3b2d;
             margin-bottom: 6px;
             line-height: 1.8;
@@ -1721,7 +1736,7 @@
         }
 
         .sidebar-highlight-item .note-text {
-            font-size: 11px;
+            font-size: 14px;
             color: #7a6651;
             margin-top: 6px;
             padding-top: 6px;
@@ -1756,7 +1771,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 14px;
             color: #7a6651;
             transition: all 0.2s;
         }
@@ -1767,7 +1782,7 @@
         }
 
         .sidebar-highlight-item .highlight-time {
-            font-size: 10px;
+            font-size: 14px;
             color: #9a8a7a;
             margin-top: 4px;
         }
@@ -1794,7 +1809,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             background: #f4e3c5;
         }
@@ -1810,7 +1825,7 @@
             flex: 1;
             padding: 8px 10px;
             overflow-y: auto;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .chat-message {
@@ -1847,14 +1862,14 @@
             border: 1px solid var(--dynamic-border);
             padding: 4px 6px;
             font-family: inherit;
-            font-size: 12px;
+            font-size: 14px;
             box-sizing: border-box;
         }
 
         #chatSendBtn {
             align-self: flex-end;
             padding: 4px 10px;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 6px;
             border: 1px solid var(--red-main);
             background: var(--red-main);
@@ -1947,7 +1962,7 @@
             color: white;
             padding: 2px 8px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 14px;
             font-weight: bold;
             margin-bottom: 8px;
         }
@@ -2173,7 +2188,7 @@
             padding: 6px 10px 0;
             color: var(--red-main);
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .icon-dongmomenu i {
@@ -2278,7 +2293,7 @@
             justify-content: end;
             align-items: flex-end;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             margin-bottom: 10px;
             /* margin-left: 10px; */
@@ -2533,7 +2548,7 @@
                     <div class="top-toolbar">
                         <!-- Unified Search Box -->
                         <div class="search-box">
-                            <i class="fa-solid fa-magnifying-glass" style="font-size: 11px; color: #b0a093;"></i>
+                            <i class="fa-solid fa-magnifying-glass" style="font-size: 14px; color: #b0a093;"></i>
                             <input type="text" id="searchInput" placeholder="Tìm tên chương hoặc nội dung..." />
                             <span class="search-count" id="searchCount">0/0</span>
                             <button id="searchPrevBtn" title="Kết quả trước" disabled><i
@@ -2570,7 +2585,7 @@
                 <!-- TITLE -->
                 <div class="title-block">
                     <div class="book-title">HÀ NỘI CÒN MỘT CHÚT NÀY</div>
-                    <div class="book-author">Tác giả: Nguyễn Ngọc Tiến</div>
+                    <div class="book-author"><strong>Tác giả: </strong>Nguyễn Ngọc Tiến</div>
                 </div>
             </div>
 
@@ -2670,8 +2685,8 @@
                         <div class="empty-state" id="notesEmptyState">
                             <i class="fa-regular fa-note-sticky"
                                 style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i>
-                            <p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có ghi chú nào.</p>
-                            <p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
+                            <p style="font-size: 14px; color: #7a6651; text-align: center;">Chưa có ghi chú nào.</p>
+                            <p style="font-size: 14px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
                                 để thêm ghi chú mới</p>
                         </div>
                     </div>
@@ -2706,8 +2721,8 @@
                         <div class="empty-state" id="annotationsEmptyState">
                             <i class="fa-regular fa-comment"
                                 style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i>
-                            <p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có chú thích nào.</p>
-                            <p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
+                            <p style="font-size: 14px; color: #7a6651; text-align: center;">Chưa có chú thích nào.</p>
+                            <p style="font-size: 14px; color: #9a8a7a; text-align: center; margin-top: 4px;">Nhấn nút +
                                 để thêm chú thích mới</p>
                         </div>
                     </div>
@@ -2801,7 +2816,9 @@
         // Data storage
         let notes = [];
         let annotations = [];
+        let highlights = [];
         let highlightCounter = 0;
+        let isHighlightMode = false;
 
         // Load data from localStorage
         function loadStoredData() {
@@ -3066,7 +3083,6 @@
 
 
         // ======= CHẾ ĐỘ HIGHLIGHT + GHI CHÚ =======
-        const highlights = [];
         let activePopup = null;
 
         function closeHighlightPopup() {
@@ -3079,7 +3095,7 @@
         function renderHighlightList() {
             if (!highlightList) return;
             if (!highlights.length) {
-                highlightList.innerHTML = '<div class="empty-state"><i class="fa-regular fa-highlighter" style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i><p style="font-size: 12px; color: #7a6651; text-align: center;">Chưa có đánh dấu nào.</p><p style="font-size: 11px; color: #9a8a7a; text-align: center; margin-top: 4px;">Bật chế độ highlight và chọn text để đánh dấu</p></div>';
+                highlightList.innerHTML = '<div class="empty-state"><i class="fa-regular fa-highlighter" style="font-size: 32px; color: var(--dynamic-border); margin-bottom: 8px;"></i><p style="font-size: 14px; color: #7a6651; text-align: center;">Chưa có đánh dấu nào.</p><p style="font-size: 14px; color: #9a8a7a; text-align: center; margin-top: 4px;">Bật chế độ highlight và chọn text để đánh dấu</p></div>';
                 return;
             }
 
@@ -3646,7 +3662,7 @@
             console.log('Updated --dynamic-border to:', newBorderColor, 'based on bgColor:', displaySettings.bgColor);
 
             // 3. UI COLORS: Apply user-selected bgColor and textColor to sidebars and top block
-            const uiSelectors = ['.left-sidebar', '.right-sidebar', '.top-block', '.bottom-progress', '.center-column', '.toc-wrapper', '.note-card', '.note-item', '.annotation-item', '.sidebar-highlight-item'];
+            const uiSelectors = ['.left-sidebar', '.right-sidebar', '.top-block', '.bottom-progress', '.center-column', '.toc-wrapper'];
             uiSelectors.forEach(selector => {
                 const el = document.querySelector(selector);
                 if (el) {
@@ -3809,9 +3825,9 @@
                             <label>Đoạn text được chú thích: <span style="color: #dc3545;">*</span></label>
                             <div style="position: relative;">
                                 <textarea id="annotationRelatedText" rows="3" placeholder="Chọn đoạn text trong bài hoặc nhập thủ công...">${annotation ? (annotation.relatedText || '') : (relatedText || '')}</textarea>
-                                <button id="selectTextBtn" style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; font-size: 11px; border: 1px solid var(--dynamic-border); background: #fff; border-radius: 4px; cursor: pointer; color: #7a6651;">Chọn text</button>
+                                <button id="selectTextBtn" style="position: absolute; top: 8px; right: 8px; padding: 4px 8px; font-size: 14px; border: 1px solid var(--dynamic-border); background: #fff; border-radius: 4px; cursor: pointer; color: #7a6651;">Chọn text</button>
                             </div>
-                            <p style="font-size: 11px; color: #9a8a7a; margin-top: 4px;">Nhấn "Chọn text" để chọn đoạn text trong bài hoặc nhập thủ công</p>
+                            <p style="font-size: 14px; color: #9a8a7a; margin-top: 4px;">Nhấn "Chọn text" để chọn đoạn text trong bài hoặc nhập thủ công</p>
                         </div>
                         <div class="form-group">
                             <label>Nội dung chú thích: <span style="color: #dc3545;">*</span></label>
@@ -3839,11 +3855,11 @@
             selectTextBtn.addEventListener('click', () => {
                 form.style.display = 'none';
                 const instruction = document.createElement('div');
-                instruction.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4a3b2d; color: #fff; padding: 14px 20px; border-radius: 8px; z-index: 10001; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 12px; max-width: 90%;';
+                instruction.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4a3b2d; color: #fff; padding: 14px 20px; border-radius: 8px; z-index: 10001; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 12px; max-width: 90%;';
                 instruction.innerHTML = `
                     <i class="fa-solid fa-mouse-pointer" style="font-size: 16px;"></i>
                     <span>Vui lòng chọn đoạn text trong bài mà bạn muốn chú thích...</span>
-                    <button id="cancelSelectBtn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: all 0.2s;">Hủy</button>
+                    <button id="cancelSelectBtn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Hủy</button>
                 `;
                 document.body.appendChild(instruction);
 
@@ -4031,7 +4047,7 @@
                 + '  <input type="radio" name="hlType" value="note" id="hlNote">'
                 + '  <label for="hlNote">Highlight + Ghi chú</label>'
                 + '</div>'
-                + '<div style="margin: 12px 0;"><label style="font-size: 12px; color: #4a3b2d; margin-bottom: 6px; display: block;">Chọn màu:</label>'
+                + '<div style="margin: 12px 0;"><label style="font-size: 14px; color: #4a3b2d; margin-bottom: 6px; display: block;">Chọn màu:</label>'
                 + '  <div style="display: flex; gap: 8px;">'
                 + '    <button type="button" class="color-btn" data-color="yellow" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #ffdd71; cursor: pointer;" title="Vàng"></button>'
                 + '    <button type="button" class="color-btn" data-color="blue" style="width: 30px; height: 30px; border-radius: 4px; border: 2px solid var(--dynamic-border); background: #a8d5ff; cursor: pointer;" title="Xanh"></button>'
@@ -4146,6 +4162,7 @@
             highlightModeBtn.addEventListener('click', function () {
                 isHighlightMode = !isHighlightMode;
                 highlightModeBtn.classList.toggle('active', isHighlightMode);
+                document.body.classList.toggle('highlight-mode-active', isHighlightMode);
                 if (!isHighlightMode) {
                     closeHighlightPopup();
                 }
